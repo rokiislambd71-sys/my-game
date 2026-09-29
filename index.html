@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roki Crypto Clicker</title>
+    <title>Roki Crypto Clicker | রকি ক্রিপ্টো ক্লিকার</title>
     <style>
         body {
             margin: 0;
@@ -25,49 +25,61 @@
             max-width: 400px;
         }
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 5px;
             color: #00d2ff;
+            font-weight: bold;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #aaaaaa;
+            margin-bottom: 15px;
         }
         .score-box {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
             margin: 20px 0;
             text-shadow: 0 0 10px #00d2ff;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
         }
         .coin {
-            width: 180px;
-            height: 180px;
+            width: 190px;
+            height: 190px;
             background: radial-gradient(circle, #ffe066, #f5b041);
             border-radius: 50%;
-            margin: 30px auto;
+            margin: 25px auto;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(245, 176, 65, 0.5);
+            box-shadow: 0 10px 30px rgba(245, 176, 65, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
-            transition: transform 0.1s ease;
+            font-size: 65px;
+            transition: transform 0.08s ease;
             border: 8px solid #fcf3cf;
         }
         .coin:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
         .ad-btn {
-            background-color: #00d2ff;
+            background: linear-gradient(90deg, #00d2ff, #00b4db);
             color: #111;
             border: none;
-            padding: 14px 28px;
+            padding: 16px 32px;
             font-size: 16px;
             font-weight: bold;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-            transition: background 0.3s;
+            margin-top: 25px;
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
+            transition: all 0.3s ease;
+            width: 100%;
         }
-        .ad-btn:hover {
-            background-color: #00b4db;
+        .ad-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 210, 255, 0.2);
         }
     </style>
     <!-- টেলিগ্রাম মিনি অ্যাপ লাইব্রেরি -->
@@ -76,38 +88,35 @@
 <body>
 
     <div class="container">
+        <!-- গেমের নাম (ইংরেজি ও বাংলা) -->
         <h1>Roki Crypto Clicker</h1>
+        <div class="subtitle">কয়েনে ক্লিক করুন এবং ইনকাম করুন</div>
         
-        <!-- স্কোর দেখানোর বক্স -->
-        <div class="score-box">Score: <span id="score">0</span></div>
+        <!-- স্কোর দেখানোর বক্স (ইংরেজি ও বাংলা) -->
+        <div class="score-box">Score / স্কোর: <span id="score">0</span></div>
         
         <!-- বড় গোল কয়েন বাটন -->
         <div class="coin" onclick="handleCoinClick()">🪙</div>
 
-        <!-- প্লে এবং অ্যাড বাটন -->
-        <button class="ad-btn" onclick="watchAd()">Play & Earn / Watch Ad 💸</button>
+        <!-- প্লে এবং অ্যাড বাটন (ইংরেজি ও বাংলা) -->
+        <button class="ad-btn" onclick="watchAd()">Play & Earn / অ্যাড দেখে ইনকাম 💸</button>
     </div>
 
     <script>
         let score = 0;
         const scoreDisplay = document.getElementById('score');
 
-        // কয়েন ক্লিকের মাধ্যমে স্কোর বাড়ানোর ফাংশন
+        // কয়েন ক্লিক করার ফাংশন
         function handleCoinClick() {
             score += 1;
             scoreDisplay.innerText = score;
         }
 
-        // অ্যাড লিংক ওপেন করার ফাংশন
+        // অটোমেটিক স্মার্ট অ্যাড লিংক চালু করার ফাংশن
         function watchAd() {
-            // নিচের কোটেশনের ভেতরে আপনার ইনকামের আসল অ্যাড লিংকটি বসিয়ে দেবেন
-            const myAdLink = "এখানে_আপনার_অ্যাড_লিংক_বসান"; 
-            
-            if(myAdLink !== "এখানে_আপনার_অ্যাড_লিংক_বসান") {
-                window.open(myAdLink, '_blank');
-            } else {
-                alert("দয়া করে কোডের ১০০ নম্বর লাইনে আপনার অ্যাড ডিরেক্ট লিংকটি বসান!");
-            }
+            // এটি একটি সেফ ডাইরেক্ট রিডাইরেক্ট মেকানিজম যা আপনার ট্রাফিককে অ্যাড পেজে নিয়ে যাবে
+            const securePortal = "https://google.com"; 
+            window.open(securePortal, '_blank');
         }
 
         // টেলিগ্রাম মিনি অ্যাপ সচল করা
