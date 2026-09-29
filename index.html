@@ -72,7 +72,7 @@
 
         .ad-btn {
             background: linear-gradient(90deg, #00d2ff, #00b4db);
-            color: #111;
+            color: #111111;
             border: none;
             padding: 16px 25px;
             font-size: 16px;
@@ -83,10 +83,14 @@
             width: 100%;
         }
 
+        .ad-btn:disabled {
+            opacity: 0.6;
+        }
+
         .status {
             margin-top: 12px;
             font-size: 13px;
-            color: #aaa;
+            color: #aaaaaa;
             min-height: 20px;
         }
     </style>
@@ -109,7 +113,7 @@
     </div>
 
     <div class="score-box">
-        Score: <span id="score">0</span>
+        স্কোর: <span id="score">0</span>
     </div>
 
     <div class="coin" id="coin">
@@ -140,7 +144,7 @@
 
     coin.addEventListener("click", function () {
 
-        score++;
+        score += 1;
 
         scoreDisplay.textContent = score;
 
@@ -149,22 +153,33 @@
 
     // =========================
     // AdsGram
-    // Block ID: 50787
+    // Platform ID: 47649TMA
+    // Block ID: 50362
     // =========================
 
     let AdController = null;
 
     try {
 
-        AdController = window.Adsgram.init({
-            blockId: "50787"
-        });
+        if (window.Adsgram) {
+
+            AdController = window.Adsgram.init({
+                blockId: "50362"
+            });
+
+        } else {
+
+            status.textContent =
+                "AdsGram SDK লোড হয়নি।";
+
+        }
 
     } catch (error) {
 
         console.error("AdsGram initialization error:", error);
 
-        status.textContent = "AdsGram লোড হয়নি।";
+        status.textContent =
+            "AdsGram চালু করা যায়নি।";
 
     }
 
@@ -178,7 +193,7 @@
         if (!AdController) {
 
             status.textContent =
-                "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়। একটু পরে চেষ্টা করুন।";
+                "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়।";
 
             return;
         }
@@ -186,7 +201,8 @@
 
         adButton.disabled = true;
 
-        status.textContent = "বিজ্ঞাপন লোড হচ্ছে...";
+        status.textContent =
+            "বিজ্ঞাপন লোড হচ্ছে...";
 
 
         try {
@@ -194,14 +210,14 @@
             const result = await AdController.show();
 
 
-            /*
-             * Rewarded ad সম্পূর্ণ দেখা হলে
-             * AdsGram promise resolve করে।
-             */
-
             if (result && result.done === true) {
 
-                // আপনার গেমের নিজস্ব reward
+                /*
+                 * বিজ্ঞাপন সম্পূর্ণ দেখা হয়েছে।
+                 * +10 শুধু গেমের নিজস্ব Score।
+                 * এটি টাকা নয়।
+                 */
+
                 score += 10;
 
                 scoreDisplay.textContent = score;
