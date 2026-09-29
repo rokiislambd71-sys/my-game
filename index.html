@@ -142,6 +142,7 @@
     const status = document.getElementById("status");
 
 
+    // Coin click
     coin.addEventListener("click", function () {
 
         score += 1;
@@ -153,8 +154,7 @@
 
     // =========================
     // AdsGram
-    // Platform ID: 47649TMA
-    // Block ID: 50362
+    // Reward Block ID: 50857
     // =========================
 
     let AdController = null;
@@ -164,7 +164,7 @@
         if (window.Adsgram) {
 
             AdController = window.Adsgram.init({
-                blockId: "50362"
+                blockId: "50857"
             });
 
         } else {
@@ -212,12 +212,7 @@
 
             if (result && result.done === true) {
 
-                /*
-                 * বিজ্ঞাপন সম্পূর্ণ দেখা হয়েছে।
-                 * +10 শুধু গেমের নিজস্ব Score।
-                 * এটি টাকা নয়।
-                 */
-
+                // গেমের নিজস্ব reward
                 score += 10;
 
                 scoreDisplay.textContent = score;
