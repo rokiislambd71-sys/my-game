@@ -3,48 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roki Crypto Clicker | রকি ক্রিপ্টো ক্লিকার</title>
+
+    <title>Roki Crypto Clicker</title>
+
     <style>
         body {
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #1e1e2f, #111110);
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             user-select: none;
         }
+
         .container {
             text-align: center;
             width: 90%;
             max-width: 400px;
         }
+
         h1 {
             font-size: 26px;
             margin-bottom: 5px;
             color: #00d2ff;
-            font-weight: bold;
         }
+
         .subtitle {
             font-size: 14px;
             color: #aaaaaa;
             margin-bottom: 15px;
         }
+
         .score-box {
             font-size: 30px;
             font-weight: bold;
             margin: 20px 0;
             text-shadow: 0 0 10px #00d2ff;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.05);
             padding: 10px 20px;
             border-radius: 15px;
-            border: 1px solid rgba(0, 210, 255, 0.2);
         }
+
         .coin {
             width: 190px;
             height: 190px;
@@ -52,76 +57,196 @@
             border-radius: 50%;
             margin: 25px auto;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(245, 176, 65, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 65px;
-            transition: transform 0.08s ease;
             border: 8px solid #fcf3cf;
+            box-shadow: 0 10px 30px rgba(245,176,65,0.4);
+            transition: transform 0.08s ease;
         }
+
         .coin:active {
             transform: scale(0.92);
         }
+
         .ad-btn {
             background: linear-gradient(90deg, #00d2ff, #00b4db);
             color: #111;
             border: none;
-            padding: 16px 32px;
+            padding: 16px 25px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
-            margin-top: 25px;
-            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.4);
-            transition: all 0.3s ease;
+            margin-top: 20px;
             width: 100%;
         }
-        .ad-btn:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(0, 210, 255, 0.2);
+
+        .status {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #aaa;
+            min-height: 20px;
         }
     </style>
-    <!-- টেলিগ্রাম মিনি অ্যাপ লাইব্রেরি -->
+
+    <!-- Telegram Mini App -->
     <script src="https://telegram.org"></script>
+
+    <!-- AdsGram SDK -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 </head>
+
 <body>
 
-    <div class="container">
-        <!-- গেমের নাম (ইংরেজি ও বাংলা) -->
-        <h1>Roki Crypto Clicker</h1>
-        <div class="subtitle">কয়েনে ক্লিক করুন এবং ইনকাম করুন</div>
-        
-        <!-- স্কোর দেখানোর বক্স (ইংরেজি ও বাংলা) -->
-        <div class="score-box">Score / স্কোর: <span id="score">0</span></div>
-        
-        <!-- বড় গোল কয়েন বাটন -->
-        <div class="coin" onclick="handleCoinClick()">🪙</div>
+<div class="container">
 
-        <!-- প্লে এবং অ্যাড বাটন (ইংরেজি ও বাংলা) -->
-        <button class="ad-btn" onclick="watchAd()">Play & Earn / অ্যাড দেখে ইনকাম 💸</button>
+    <h1>Roki Crypto Clicker</h1>
+
+    <div class="subtitle">
+        কয়েনে ক্লিক করুন এবং বিজ্ঞাপন দেখে পুরস্কার নিন
     </div>
 
-    <script>
-        let score = 0;
-        const scoreDisplay = document.getElementById('score');
+    <div class="score-box">
+        Score: <span id="score">0</span>
+    </div>
 
-        // কয়েন ক্লিক করার ফাংশন
-        function handleCoinClick() {
-            score += 1;
-            scoreDisplay.innerText = score;
+    <div class="coin" id="coin">
+        🪙
+    </div>
+
+    <button class="ad-btn" id="adButton">
+        📺 বিজ্ঞাপন দেখুন
+    </button>
+
+    <div class="status" id="status"></div>
+
+</div>
+
+<script>
+
+    // =========================
+    // Game
+    // =========================
+
+    let score = 0;
+
+    const scoreDisplay = document.getElementById("score");
+    const coin = document.getElementById("coin");
+    const adButton = document.getElementById("adButton");
+    const status = document.getElementById("status");
+
+
+    coin.addEventListener("click", function () {
+
+        score++;
+
+        scoreDisplay.textContent = score;
+
+    });
+
+
+    // =========================
+    // AdsGram
+    // Block ID: 50787
+    // =========================
+
+    let AdController = null;
+
+    try {
+
+        AdController = window.Adsgram.init({
+            blockId: "50787"
+        });
+
+    } catch (error) {
+
+        console.error("AdsGram initialization error:", error);
+
+        status.textContent = "AdsGram লোড হয়নি।";
+
+    }
+
+
+    // =========================
+    // Show Rewarded Ad
+    // =========================
+
+    adButton.addEventListener("click", async function () {
+
+        if (!AdController) {
+
+            status.textContent =
+                "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়। একটু পরে চেষ্টা করুন।";
+
+            return;
         }
 
-        // অটোমেটিক স্মার্ট অ্যাড লিংক চালু করার ফাংশن
-        function watchAd() {
-            // এটি একটি সেফ ডাইরেক্ট রিডাইরেক্ট মেকানিজম যা আপনার ট্রাফিককে অ্যাড পেজে নিয়ে যাবে
-            const securePortal = "https://google.com"; 
-            window.open(securePortal, '_blank');
+
+        adButton.disabled = true;
+
+        status.textContent = "বিজ্ঞাপন লোড হচ্ছে...";
+
+
+        try {
+
+            const result = await AdController.show();
+
+
+            /*
+             * Rewarded ad সম্পূর্ণ দেখা হলে
+             * AdsGram promise resolve করে।
+             */
+
+            if (result && result.done === true) {
+
+                // আপনার গেমের নিজস্ব reward
+                score += 10;
+
+                scoreDisplay.textContent = score;
+
+                status.textContent =
+                    "বিজ্ঞাপন সম্পূর্ণ হয়েছে। +10 Score";
+
+            } else {
+
+                status.textContent =
+                    "বিজ্ঞাপন সম্পূর্ণ হয়নি।";
+
+            }
+
+        } catch (error) {
+
+            console.error("AdsGram error:", error);
+
+            status.textContent =
+                "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।";
+
         }
 
-        // টেলিগ্রাম মিনি অ্যাপ সচল করা
+
+        adButton.disabled = false;
+
+    });
+
+
+    // =========================
+    // Telegram Mini App
+    // =========================
+
+    if (
+        window.Telegram &&
+        window.Telegram.WebApp
+    ) {
+
         window.Telegram.WebApp.ready();
+
         window.Telegram.WebApp.expand();
-    </script>
+
+    }
+
+</script>
+
 </body>
 </html>
