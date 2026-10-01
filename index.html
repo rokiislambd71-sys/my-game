@@ -6,17 +6,29 @@
 
     <title>Roki Crypto Clicker</title>
 
+    <!-- Telegram Mini App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- AdsGram SDK -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #1e1e2f, #111110);
             color: #ffffff;
             font-family: Arial, sans-serif;
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
             min-height: 100vh;
             overflow: hidden;
             user-select: none;
@@ -30,7 +42,7 @@
 
         h1 {
             font-size: 26px;
-            margin-bottom: 5px;
+            margin: 0 0 5px 0;
             color: #00d2ff;
         }
 
@@ -43,26 +55,45 @@
         .score-box {
             font-size: 30px;
             font-weight: bold;
+
             margin: 20px 0;
+
             text-shadow: 0 0 10px #00d2ff;
+
             background: rgba(255,255,255,0.05);
+
             padding: 10px 20px;
+
             border-radius: 15px;
         }
 
         .coin {
             width: 190px;
             height: 190px;
-            background: radial-gradient(circle, #ffe066, #f5b041);
+
+            background: radial-gradient(
+                circle,
+                #ffe066,
+                #f5b041
+            );
+
             border-radius: 50%;
+
             margin: 25px auto;
+
             cursor: pointer;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-size: 65px;
+
             border: 8px solid #fcf3cf;
-            box-shadow: 0 10px 30px rgba(245,176,65,0.4);
+
+            box-shadow:
+                0 10px 30px rgba(245,176,65,0.4);
+
             transition: transform 0.08s ease;
         }
 
@@ -71,35 +102,46 @@
         }
 
         .ad-btn {
-            background: linear-gradient(90deg, #00d2ff, #00b4db);
+            background: linear-gradient(
+                90deg,
+                #00d2ff,
+                #00b4db
+            );
+
             color: #111111;
+
             border: none;
+
             padding: 16px 25px;
+
             font-size: 16px;
+
             font-weight: bold;
+
             border-radius: 30px;
+
             cursor: pointer;
+
             margin-top: 20px;
+
             width: 100%;
         }
 
         .ad-btn:disabled {
             opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .status {
             margin-top: 12px;
+
             font-size: 13px;
+
             color: #aaaaaa;
+
             min-height: 20px;
         }
     </style>
-
-    <!-- Telegram Mini App -->
-    <script src="https://telegram.org"></script>
-
-    <!-- AdsGram SDK -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 </head>
 
 <body>
@@ -128,21 +170,44 @@
 
 </div>
 
+
 <script>
 
-    // =========================
-    // Game
-    // =========================
+    /* =====================================
+       Telegram Mini App
+    ===================================== */
+
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+        tg.ready();
+        tg.expand();
+    }
+
+
+    /* =====================================
+       Game
+    ===================================== */
 
     let score = 0;
 
-    const scoreDisplay = document.getElementById("score");
-    const coin = document.getElementById("coin");
-    const adButton = document.getElementById("adButton");
-    const status = document.getElementById("status");
+    const scoreDisplay =
+        document.getElementById("score");
+
+    const coin =
+        document.getElementById("coin");
+
+    const adButton =
+        document.getElementById("adButton");
+
+    const status =
+        document.getElementById("status");
 
 
-    // Coin click
+    /* =====================================
+       Coin Click
+    ===================================== */
+
     coin.addEventListener("click", function () {
 
         score += 1;
@@ -152,110 +217,125 @@
     });
 
 
-    // =========================
-    // AdsGram
-    // Reward Block ID: 51178
-    // =========================
+    /* =====================================
+       AdsGram
+       Reward Block ID = 51178
+    ===================================== */
 
     let AdController = null;
 
-    try {
-
-        if (window.Adsgram) {
-
-            AdController = window.Adsgram.init({
-                blockId: "51178"
-            });
-
-        } else {
-
-            status.textContent =
-                "AdsGram SDK লোড হয়নি।";
-
-        }
-
-    } catch (error) {
-
-        console.error("AdsGram initialization error:", error);
-
-        status.textContent =
-            "AdsGram চালু করা যায়নি।";
-
-    }
-
-
-    // =========================
-    // Show Rewarded Ad
-    // =========================
-
-    adButton.addEventListener("click", async function () {
-
-        if (!AdController) {
-
-            status.textContent =
-                "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়।";
-
-            return;
-        }
-
-
-        adButton.disabled = true;
-
-        status.textContent =
-            "বিজ্ঞাপন লোড হচ্ছে...";
-
+    function initializeAds() {
 
         try {
 
-            const result = await AdController.show();
+            if (
+                window.Adsgram &&
+                typeof window.Adsgram.init === "function"
+            ) {
 
-
-            if (result && result.done === true) {
-
-                // গেমের নিজস্ব reward
-                score += 10;
-
-                scoreDisplay.textContent = score;
+                AdController = window.Adsgram.init({
+                    blockId: "51178"
+                });
 
                 status.textContent =
-                    "বিজ্ঞাপন সম্পূর্ণ হয়েছে। +10 Score";
+                    "বিজ্ঞাপন প্রস্তুত।";
 
             } else {
 
                 status.textContent =
-                    "বিজ্ঞাপন সম্পূর্ণ হয়নি।";
+                    "AdsGram SDK লোড হয়নি।";
 
             }
 
         } catch (error) {
 
-            console.error("AdsGram error:", error);
+            console.error(
+                "AdsGram initialization error:",
+                error
+            );
 
             status.textContent =
-                "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।";
+                "AdsGram চালু করা যায়নি।";
+        }
+    }
+
+
+    initializeAds();
+
+
+    /* =====================================
+       Show Rewarded Advertisement
+    ===================================== */
+
+    adButton.addEventListener(
+        "click",
+        async function () {
+
+            if (!AdController) {
+
+                status.textContent =
+                    "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়।";
+
+                return;
+            }
+
+
+            adButton.disabled = true;
+
+            status.textContent =
+                "বিজ্ঞাপন লোড হচ্ছে...";
+
+
+            try {
+
+                const result =
+                    await AdController.show();
+
+
+                /*
+                 * Rewarded ad:
+                 * বিজ্ঞাপন সম্পূর্ণ হলে done = true
+                 */
+
+                if (
+                    result &&
+                    result.done === true
+                ) {
+
+                    score += 10;
+
+                    scoreDisplay.textContent =
+                        score;
+
+                    status.textContent =
+                        "বিজ্ঞাপন সম্পূর্ণ হয়েছে। +10 Score";
+
+                } else {
+
+                    status.textContent =
+                        "বিজ্ঞাপন সম্পূর্ণ হয়নি।";
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "AdsGram show error:",
+                    error
+                );
+
+
+                status.textContent =
+                    "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।";
+
+            } finally {
+
+                adButton.disabled = false;
+
+            }
 
         }
-
-
-        adButton.disabled = false;
-
-    });
-
-
-    // =========================
-    // Telegram Mini App
-    // =========================
-
-    if (
-        window.Telegram &&
-        window.Telegram.WebApp
-    ) {
-
-        window.Telegram.WebApp.ready();
-
-        window.Telegram.WebApp.expand();
-
-    }
+    );
 
 </script>
 
