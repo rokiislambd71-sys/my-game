@@ -10,7 +10,6 @@
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -49,7 +48,7 @@ h1 {
 }
 
 .card {
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,.07);
     border-radius: 20px;
     padding: 18px;
     margin-bottom: 14px;
@@ -87,16 +86,14 @@ h1 {
     width: 185px;
     height: 185px;
     margin: 15px auto 12px;
-
     border-radius: 50%;
 
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #fff7b2,
-            #ffd43b 45%,
-            #f59e0b
-        );
+    background: radial-gradient(
+        circle at 35% 30%,
+        #fff7b2,
+        #ffd43b 45%,
+        #f59e0b
+    );
 
     border: 8px solid #fff7c2;
 
@@ -106,11 +103,9 @@ h1 {
 
     font-size: 70px;
 
-    box-shadow:
-        0 10px 35px rgba(245,158,11,.45);
+    box-shadow: 0 10px 35px rgba(245,158,11,.45);
 
     cursor: pointer;
-
     transition: transform .08s;
 }
 
@@ -136,11 +131,7 @@ h1 {
 .progress {
     height: 100%;
     width: 0%;
-    background: linear-gradient(
-        90deg,
-        #00d2ff,
-        #00b4db
-    );
+    background: linear-gradient(90deg,#00d2ff,#00b4db);
     transition: width .2s;
 }
 
@@ -149,15 +140,55 @@ h1 {
     font-size: 12px;
 }
 
+button {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    padding: 14px;
+    margin-top: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.ad-button {
+    background: linear-gradient(90deg,#00d2ff,#00b4db);
+    color: #111;
+}
+
+.daily {
+    background: linear-gradient(90deg,#facc15,#f59e0b);
+    color: #111;
+}
+
+.combo-box {
+    text-align: center;
+}
+
+.combo {
+    font-size: 22px;
+    color: #facc15;
+    font-weight: bold;
+}
+
+.status {
+    min-height: 22px;
+    margin-top: 10px;
+    text-align: center;
+    color: #00d2ff;
+    font-size: 13px;
+}
+
 .mission {
     background: rgba(255,255,255,.05);
     padding: 12px;
     border-radius: 12px;
     margin-bottom: 9px;
-}
-
-.mission:last-child {
-    margin-bottom: 0;
 }
 
 .mission-name {
@@ -182,76 +213,12 @@ h1 {
     border-radius: 12px;
 }
 
-.achievement:last-child {
-    margin-bottom: 0;
-}
-
 .locked {
     opacity: .45;
 }
 
 .unlocked {
     opacity: 1;
-}
-
-button {
-    width: 100%;
-    border: none;
-    border-radius: 30px;
-
-    padding: 14px;
-
-    margin-top: 9px;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-}
-
-.daily {
-    background: linear-gradient(
-        90deg,
-        #facc15,
-        #f59e0b
-    );
-
-    color: #111;
-}
-
-.ad-button {
-    background: linear-gradient(
-        90deg,
-        #00d2ff,
-        #00b4db
-    );
-
-    color: #111;
-}
-
-.combo-box {
-    text-align: center;
-}
-
-.combo {
-    font-size: 22px;
-    color: #facc15;
-    font-weight: bold;
-}
-
-.status {
-    min-height: 22px;
-    margin-top: 10px;
-
-    text-align: center;
-
-    color: #00d2ff;
-    font-size: 13px;
 }
 
 .info {
@@ -263,13 +230,10 @@ button:disabled {
 .ad-location {
     background: rgba(0,210,255,.08);
     border: 1px solid rgba(0,210,255,.2);
-
     padding: 10px;
     border-radius: 10px;
-
     color: #aaa;
     font-size: 12px;
-
     margin-top: 10px;
 }
 
@@ -279,7 +243,6 @@ button:disabled {
     font-size: 11px;
     margin-top: 15px;
 }
-
 </style>
 </head>
 
@@ -288,16 +251,15 @@ button:disabled {
 <div class="container">
 
     <div class="header">
-
         <h1>🪙 Roki Coin Click</h1>
 
         <div class="subtitle">
             Coin সংগ্রহ করুন এবং নিজের Level বাড়ান
         </div>
-
     </div>
 
 
+    <!-- SCORE -->
     <div class="card">
 
         <div class="score-label">
@@ -312,22 +274,20 @@ button:disabled {
             ⭐ Level <span id="level">1</span>
         </div>
 
-
         <div class="coin" id="coin">
             🪙
         </div>
 
-
         <div class="tap-info">
             কয়েনে ট্যাপ করলে +1 Coin
         </div>
-
 
         <div class="status" id="status"></div>
 
     </div>
 
 
+    <!-- LEVEL -->
     <div class="card">
 
         <div class="title">
@@ -340,12 +300,7 @@ button:disabled {
         </div>
 
         <div class="progress-bg">
-
-            <div
-                class="progress"
-                id="levelProgress">
-            </div>
-
+            <div class="progress" id="levelProgress"></div>
         </div>
 
         <div class="small">
@@ -355,6 +310,7 @@ button:disabled {
     </div>
 
 
+    <!-- COMBO -->
     <div class="card combo-box">
 
         <div class="title">
@@ -363,4 +319,513 @@ button:disabled {
 
         <div class="combo">
             x<span id="combo">0</span>
-       
+        </div>
+
+        <div class="small">
+            দ্রুত ট্যাপ করলে Combo বাড়বে।
+        </div>
+
+    </div>
+
+
+    <!-- REWARDED AD -->
+    <div class="card">
+
+        <div class="title">
+            🎁 Bonus
+        </div>
+
+        <div class="info">
+            চাইলে বিজ্ঞাপন দেখে অতিরিক্ত Coin Bonus নিতে পারেন।
+            বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
+        </div>
+
+        <button
+            class="ad-button"
+            id="watchAd">
+            📺 বিজ্ঞাপন দেখুন +50 Coin
+        </button>
+
+        <div class="ad-location">
+            বিজ্ঞাপনটি এই Bonus অংশে ব্যবহারকারীর
+            বোতামে চাপ দেওয়ার পর প্রদর্শিত হবে।
+        </div>
+
+    </div>
+
+
+    <!-- DAILY -->
+    <div class="card">
+
+        <div class="title">
+            🎁 Daily Bonus
+        </div>
+
+        <div class="info">
+            প্রতিদিন একবার Daily Bonus নেওয়া যাবে।
+        </div>
+
+        <button
+            class="daily"
+            id="dailyButton">
+            🎁 Daily Bonus +20 Coin
+        </button>
+
+    </div>
+
+
+    <!-- MISSIONS -->
+    <div class="card">
+
+        <div class="title">
+            🎯 Missions
+        </div>
+
+        <div class="mission">
+
+            <div class="mission-name">
+                🪙 100 Coin সংগ্রহ করুন
+            </div>
+
+            <div
+                class="mission-status"
+                id="mission100">
+                Progress: 0 / 100
+            </div>
+
+        </div>
+
+        <div class="mission">
+
+            <div class="mission-name">
+                🪙 500 Coin সংগ্রহ করুন
+            </div>
+
+            <div
+                class="mission-status"
+                id="mission500">
+                Progress: 0 / 500
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACHIEVEMENTS -->
+    <div class="card">
+
+        <div class="title">
+            🏆 Achievements
+        </div>
+
+        <div
+            class="achievement locked"
+            id="achievement100">
+
+            <span>🥉 100 Coin</span>
+            <span>🔒</span>
+
+        </div>
+
+        <div
+            class="achievement locked"
+            id="achievement500">
+
+            <span>🥈 500 Coin</span>
+            <span>🔒</span>
+
+        </div>
+
+        <div
+            class="achievement locked"
+            id="achievement1000">
+
+            <span>🥇 1000 Coin</span>
+            <span>🔒</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        Roki Coin Click
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   TELEGRAM MINI APP
+========================================= */
+
+const tg = window.Telegram && window.Telegram.WebApp;
+
+if (tg) {
+    tg.ready();
+    tg.expand();
+}
+
+
+/* =========================================
+   GAME VARIABLES
+========================================= */
+
+let score = 0;
+let combo = 0;
+let lastTap = 0;
+let dailyClaimed = false;
+
+
+/* =========================================
+   ADSGRAM
+========================================= */
+
+/*
+   তোমার AdsGram Reward Block ID
+*/
+const BLOCK_ID = "50857";
+
+let AdController = null;
+
+try {
+
+    if (window.Adsgram) {
+
+        AdController = window.Adsgram.init({
+            blockId: BLOCK_ID
+        });
+
+    }
+
+} catch (error) {
+
+    console.log("AdsGram initialization error:", error);
+
+}
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const scoreElement =
+    document.getElementById("score");
+
+const levelElement =
+    document.getElementById("level");
+
+const nextLevelElement =
+    document.getElementById("nextLevel");
+
+const progressElement =
+    document.getElementById("levelProgress");
+
+const comboElement =
+    document.getElementById("combo");
+
+const statusElement =
+    document.getElementById("status");
+
+const coinElement =
+    document.getElementById("coin");
+
+const watchAdButton =
+    document.getElementById("watchAd");
+
+const dailyButton =
+    document.getElementById("dailyButton");
+
+
+/* =========================================
+   UPDATE GAME UI
+========================================= */
+
+function updateGame() {
+
+    scoreElement.textContent = score;
+
+    comboElement.textContent = combo;
+
+
+    /* LEVEL */
+
+    const level =
+        Math.floor(score / 100) + 1;
+
+    levelElement.textContent = level;
+
+
+    const nextLevel =
+        level * 100;
+
+    nextLevelElement.textContent =
+        nextLevel;
+
+
+    const previousLevel =
+        (level - 1) * 100;
+
+    const needed =
+        nextLevel - previousLevel;
+
+    const current =
+        score - previousLevel;
+
+    let percent =
+        (current / needed) * 100;
+
+    if (percent > 100) {
+        percent = 100;
+    }
+
+    if (percent < 0) {
+        percent = 0;
+    }
+
+    progressElement.style.width =
+        percent + "%";
+
+
+    /* MISSIONS */
+
+    document.getElementById("mission100")
+        .textContent =
+        "Progress: " +
+        Math.min(score,100) +
+        " / 100";
+
+
+    document.getElementById("mission500")
+        .textContent =
+        "Progress: " +
+        Math.min(score,500) +
+        " / 500";
+
+
+    /* ACHIEVEMENTS */
+
+    updateAchievement(
+        "achievement100",
+        score >= 100
+    );
+
+    updateAchievement(
+        "achievement500",
+        score >= 500
+    );
+
+    updateAchievement(
+        "achievement1000",
+        score >= 1000
+    );
+
+}
+
+
+/* =========================================
+   ACHIEVEMENT
+========================================= */
+
+function updateAchievement(id, unlocked) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) return;
+
+    if (unlocked) {
+
+        element.classList.remove("locked");
+        element.classList.add("unlocked");
+
+        const icon =
+            element.querySelector("span:last-child");
+
+        if (icon) {
+            icon.textContent = "✅";
+        }
+
+    }
+
+}
+
+
+/* =========================================
+   TAP COIN
+========================================= */
+
+coinElement.addEventListener(
+    "click",
+    function () {
+
+        const now =
+            Date.now();
+
+        /*
+           Combo শুধুমাত্র দ্রুত ট্যাপের
+           visual/game feature।
+        */
+
+        if (
+            lastTap &&
+            now - lastTap < 800
+        ) {
+
+            combo++;
+
+        } else {
+
+            combo = 1;
+
+        }
+
+        lastTap = now;
+
+
+        score += 1;
+
+        updateGame();
+
+
+        statusElement.textContent =
+            "+1 Coin";
+
+
+        setTimeout(() => {
+
+            statusElement.textContent =
+                "";
+
+        }, 500);
+
+    }
+);
+
+
+/* =========================================
+   REWARDED ADSGRAM AD
+========================================= */
+
+watchAdButton.addEventListener(
+    "click",
+    async function () {
+
+        /*
+           Basic game functions remain
+           available without watching ads.
+        */
+
+        if (!AdController) {
+
+            statusElement.textContent =
+                "AdsGram এখনো প্রস্তুত নয়।";
+
+            return;
+
+        }
+
+
+        watchAdButton.disabled = true;
+
+        statusElement.textContent =
+            "বিজ্ঞাপন প্রস্তুত হচ্ছে...";
+
+
+        try {
+
+            /*
+               Rewarded ad:
+               reward is granted only after
+               AdsGram resolves the show()
+               successfully.
+            */
+
+            await AdController.show();
+
+
+            /*
+               Ad successfully completed.
+               Give the bonus here.
+            */
+
+            score += 50;
+
+            updateGame();
+
+
+            statusElement.textContent =
+                "🎉 বিজ্ঞাপন সম্পূর্ণ হয়েছে। +50 Coin";
+
+
+        } catch (error) {
+
+            console.log(
+                "AdsGram error:",
+                error
+            );
+
+            statusElement.textContent =
+                "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।";
+
+        } finally {
+
+            watchAdButton.disabled = false;
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   DAILY BONUS
+========================================= */
+
+dailyButton.addEventListener(
+    "click",
+    function () {
+
+        if (dailyClaimed) {
+
+            statusElement.textContent =
+                "আজকের Daily Bonus নেওয়া হয়েছে।";
+
+            return;
+
+        }
+
+
+        score += 20;
+
+        dailyClaimed = true;
+
+        dailyButton.disabled = true;
+
+        dailyButton.textContent =
+            "✅ আজকের Bonus নেওয়া হয়েছে";
+
+
+        updateGame();
+
+
+        statusElement.textContent =
+            "🎁 +20 Coin Daily Bonus";
+
+    }
+);
+
+
+/* =========================================
+   START
+========================================= */
+
+updateGame();
+
+</script>
+
+</body>
+</html>
