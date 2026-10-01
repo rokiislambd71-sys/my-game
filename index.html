@@ -1,341 +1,466 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Roki Crypto Clicker</title>
+<title>Roki Coin Click</title>
 
-    <!-- Telegram Mini App -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
-    <!-- AdsGram SDK -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<style>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1e1e2f, #111110);
-            color: #ffffff;
-            font-family: Arial, sans-serif;
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg,#111827,#1e1b4b);
+    color: white;
+    font-family: Arial,sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+.container {
+    width: 92%;
+    max-width: 420px;
+    text-align: center;
+}
 
-            min-height: 100vh;
-            overflow: hidden;
-            user-select: none;
-        }
+h1 {
+    color: #00d2ff;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
 
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-        }
+.subtitle {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
 
-        h1 {
-            font-size: 26px;
-            margin: 0 0 5px 0;
-            color: #00d2ff;
-        }
+.card {
+    background: rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
 
-        .subtitle {
-            font-size: 14px;
-            color: #aaaaaa;
-            margin-bottom: 15px;
-        }
+.coin-title {
+    font-size: 15px;
+    color: #aaa;
+}
 
-        .score-box {
-            font-size: 30px;
-            font-weight: bold;
+.score {
+    font-size: 38px;
+    font-weight: bold;
+    color: #ffe066;
+    margin: 5px 0 15px;
+}
 
-            margin: 20px 0;
+.coin {
+    width: 190px;
+    height: 190px;
+    margin: 10px auto 20px;
 
-            text-shadow: 0 0 10px #00d2ff;
+    border-radius: 50%;
 
-            background: rgba(255,255,255,0.05);
+    background:
+        radial-gradient(circle at 35% 30%,
+        #fff3a3,
+        #ffd43b 45%,
+        #f59e0b);
 
-            padding: 10px 20px;
+    border: 8px solid #fff7c2;
 
-            border-radius: 15px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .coin {
-            width: 190px;
-            height: 190px;
+    font-size: 70px;
 
-            background: radial-gradient(
-                circle,
-                #ffe066,
-                #f5b041
-            );
+    box-shadow:
+        0 10px 35px rgba(245,158,11,.45);
 
-            border-radius: 50%;
+    cursor: pointer;
 
-            margin: 25px auto;
+    transition: transform .08s;
+}
 
-            cursor: pointer;
+.coin:active {
+    transform: scale(.91);
+}
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+.tap-text {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
 
-            font-size: 65px;
+button {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
 
-            border: 8px solid #fcf3cf;
+.ad-btn {
+    background: linear-gradient(90deg,#00d2ff,#00b4db);
+    color: #111;
+}
 
-            box-shadow:
-                0 10px 30px rgba(245,176,65,0.4);
+.bonus-btn {
+    background: linear-gradient(90deg,#facc15,#f59e0b);
+    color: #111;
+}
 
-            transition: transform 0.08s ease;
-        }
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
 
-        .coin:active {
-            transform: scale(0.92);
-        }
+.info {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(255,255,255,.05);
+    border-radius: 12px;
+    font-size: 13px;
+    color: #aaa;
+}
 
-        .ad-btn {
-            background: linear-gradient(
-                90deg,
-                #00d2ff,
-                #00b4db
-            );
+.status {
+    min-height: 22px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #00d2ff;
+}
 
-            color: #111111;
+.footer {
+    margin-top: 15px;
+    font-size: 11px;
+    color: #666;
+}
 
-            border: none;
-
-            padding: 16px 25px;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            border-radius: 30px;
-
-            cursor: pointer;
-
-            margin-top: 20px;
-
-            width: 100%;
-        }
-
-        .ad-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .status {
-            margin-top: 12px;
-
-            font-size: 13px;
-
-            color: #aaaaaa;
-
-            min-height: 20px;
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Roki Crypto Clicker</h1>
+    <h1>🪙 Roki Coin Click</h1>
 
     <div class="subtitle">
-        কয়েনে ক্লিক করুন এবং বিজ্ঞাপন দেখে পুরস্কার নিন
+        কয়েনে ট্যাপ করুন এবং বোনাস সংগ্রহ করুন
     </div>
 
-    <div class="score-box">
-        স্কোর: <span id="score">0</span>
+    <div class="card">
+
+        <div class="coin-title">
+            আপনার Coin
+        </div>
+
+        <div class="score">
+            <span id="score">0</span>
+        </div>
+
+        <div class="coin" id="coin">
+            🪙
+        </div>
+
+        <div class="tap-text">
+            কয়েনে ট্যাপ করলে +1 Coin
+        </div>
+
+        <button
+            class="ad-btn"
+            id="adButton">
+            📺 বিজ্ঞাপন দেখুন
+            <br>
+            <small>সম্পূর্ণ বিজ্ঞাপন = +10 Coin</small>
+        </button>
+
+        <button
+            class="bonus-btn"
+            id="dailyButton">
+            🎁 Daily Bonus
+        </button>
+
+        <div class="info">
+            💰 Coin সংগ্রহ করুন<br>
+            📺 বিজ্ঞাপন দেখে Bonus নিন<br>
+            🎁 প্রতিদিন Bonus সংগ্রহ করুন
+        </div>
+
+        <div
+            class="status"
+            id="status">
+        </div>
+
     </div>
 
-    <div class="coin" id="coin">
-        🪙
+    <div class="footer">
+        Coin বর্তমানে গেমের অভ্যন্তরীণ পয়েন্ট।
     </div>
-
-    <button class="ad-btn" id="adButton">
-        📺 বিজ্ঞাপন দেখুন
-    </button>
-
-    <div class="status" id="status"></div>
 
 </div>
 
 
 <script>
 
-    /* =====================================
-       Telegram Mini App
-    ===================================== */
+/* =====================================
+   Telegram Mini App
+===================================== */
 
-    const tg = window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp;
 
-    if (tg) {
-        tg.ready();
-        tg.expand();
+if (tg) {
+    tg.ready();
+    tg.expand();
+}
+
+
+/* =====================================
+   Elements
+===================================== */
+
+const scoreDisplay =
+    document.getElementById("score");
+
+const coin =
+    document.getElementById("coin");
+
+const adButton =
+    document.getElementById("adButton");
+
+const dailyButton =
+    document.getElementById("dailyButton");
+
+const status =
+    document.getElementById("status");
+
+
+/* =====================================
+   Load Saved Coin
+===================================== */
+
+let score =
+    Number(localStorage.getItem("rokiCoin")) || 0;
+
+scoreDisplay.textContent = score;
+
+
+/* =====================================
+   Save Coin
+===================================== */
+
+function saveScore() {
+
+    localStorage.setItem(
+        "rokiCoin",
+        score
+    );
+
+}
+
+
+/* =====================================
+   Update Score
+===================================== */
+
+function updateScore(amount) {
+
+    score += amount;
+
+    scoreDisplay.textContent =
+        score;
+
+    saveScore();
+
+}
+
+
+/* =====================================
+   Coin Click
+===================================== */
+
+coin.addEventListener(
+    "click",
+    function() {
+
+        updateScore(1);
+
+        status.textContent =
+            "+1 Coin";
+
+    }
+);
+
+
+/* =====================================
+   AdsGram
+   Block ID: 51178
+===================================== */
+
+let AdController = null;
+
+try {
+
+    if (
+        window.Adsgram &&
+        typeof window.Adsgram.init === "function"
+    ) {
+
+        AdController =
+            window.Adsgram.init({
+                blockId: "51178"
+            });
+
+    } else {
+
+        status.textContent =
+            "AdsGram প্রস্তুত নয়।";
+
     }
 
+} catch (error) {
 
-    /* =====================================
-       Game
-    ===================================== */
+    console.error(
+        "AdsGram error:",
+        error
+    );
 
-    let score = 0;
-
-    const scoreDisplay =
-        document.getElementById("score");
-
-    const coin =
-        document.getElementById("coin");
-
-    const adButton =
-        document.getElementById("adButton");
-
-    const status =
-        document.getElementById("status");
+    status.textContent =
+        "AdsGram চালু করা যায়নি।";
+}
 
 
-    /* =====================================
-       Coin Click
-    ===================================== */
+/* =====================================
+   Show Advertisement
+===================================== */
 
-    coin.addEventListener("click", function () {
+adButton.addEventListener(
+    "click",
+    async function() {
 
-        score += 1;
+        if (!AdController) {
 
-        scoreDisplay.textContent = score;
+            status.textContent =
+                "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়।";
 
-    });
+            return;
+        }
 
+        adButton.disabled = true;
 
-    /* =====================================
-       AdsGram
-       Reward Block ID = 51178
-    ===================================== */
-
-    let AdController = null;
-
-    function initializeAds() {
+        status.textContent =
+            "📺 বিজ্ঞাপন লোড হচ্ছে...";
 
         try {
 
+            const result =
+                await AdController.show();
+
+
             if (
-                window.Adsgram &&
-                typeof window.Adsgram.init === "function"
+                result &&
+                result.done === true
             ) {
 
-                AdController = window.Adsgram.init({
-                    blockId: "51178"
-                });
+                updateScore(10);
 
                 status.textContent =
-                    "বিজ্ঞাপন প্রস্তুত।";
+                    "🎉 বিজ্ঞাপন সম্পূর্ণ! +10 Coin";
 
             } else {
 
                 status.textContent =
-                    "AdsGram SDK লোড হয়নি।";
+                    "বিজ্ঞাপন সম্পূর্ণ হয়নি।";
 
             }
 
         } catch (error) {
 
             console.error(
-                "AdsGram initialization error:",
+                "AdsGram show error:",
                 error
             );
 
             status.textContent =
-                "AdsGram চালু করা যায়নি।";
+                "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।";
+
+        } finally {
+
+            adButton.disabled = false;
+
         }
+
     }
+);
 
 
-    initializeAds();
+/* =====================================
+   Daily Bonus
+===================================== */
+
+dailyButton.addEventListener(
+    "click",
+    function() {
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        const lastBonus =
+            localStorage.getItem(
+                "rokiDailyBonus"
+            );
 
 
-    /* =====================================
-       Show Rewarded Advertisement
-    ===================================== */
-
-    adButton.addEventListener(
-        "click",
-        async function () {
-
-            if (!AdController) {
-
-                status.textContent =
-                    "বিজ্ঞাপন সিস্টেম প্রস্তুত নয়।";
-
-                return;
-            }
-
-
-            adButton.disabled = true;
+        if (lastBonus === today) {
 
             status.textContent =
-                "বিজ্ঞাপন লোড হচ্ছে...";
+                "🎁 আজকের Bonus ইতিমধ্যে নেওয়া হয়েছে।";
 
-
-            try {
-
-                const result =
-                    await AdController.show();
-
-
-                /*
-                 * Rewarded ad:
-                 * বিজ্ঞাপন সম্পূর্ণ হলে done = true
-                 */
-
-                if (
-                    result &&
-                    result.done === true
-                ) {
-
-                    score += 10;
-
-                    scoreDisplay.textContent =
-                        score;
-
-                    status.textContent =
-                        "বিজ্ঞাপন সম্পূর্ণ হয়েছে। +10 Score";
-
-                } else {
-
-                    status.textContent =
-                        "বিজ্ঞাপন সম্পূর্ণ হয়নি।";
-                }
-
-
-            } catch (error) {
-
-                console.error(
-                    "AdsGram show error:",
-                    error
-                );
-
-
-                status.textContent =
-                    "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।";
-
-            } finally {
-
-                adButton.disabled = false;
-
-            }
-
+            return;
         }
-    );
+
+
+        updateScore(20);
+
+
+        localStorage.setItem(
+            "rokiDailyBonus",
+            today
+        );
+
+
+        status.textContent =
+            "🎁 Daily Bonus! +20 Coin";
+
+    }
+);
+
+
+/* =====================================
+   Initial Message
+===================================== */
+
+if (score === 0) {
+
+    status.textContent =
+        "🪙 শুরু করতে কয়েনে ট্যাপ করুন।";
+
+}
 
 </script>
 
