@@ -1,1592 +1,385 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roki Coin Click</title>
 
-<!-- Telegram Mini App -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<!-- AdsGram SDK -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
-
 <style>
-
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:linear-gradient(160deg,#111827,#172554,#0f172a);
+  min-height:100vh;
+  padding:18px;
 }
-
-html {
-    scroll-behavior: smooth;
+.container{max-width:520px;margin:auto}
+h1{text-align:center;margin:8px 0 20px}
+.card{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
 }
-
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    background:
-        linear-gradient(
-            135deg,
-            #111827,
-            #1e1b4b
-        );
-
-    color: white;
-
-    font-family:
-        Arial,
-        sans-serif;
-
-    user-select: none;
+.score{
+  text-align:center;
+  font-size:32px;
+  font-weight:bold;
 }
-
-.container {
-    width: 92%;
-    max-width: 430px;
-
-    margin: auto;
-
-    padding:
-        18px 0 35px;
+.coin{
+  width:170px;
+  height:170px;
+  margin:20px auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#facc15,#f59e0b);
+  color:#111;
+  font-size:38px;
+  font-weight:bold;
+  cursor:pointer;
+  user-select:none;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
 }
-
-
-/* HEADER */
-
-.header {
-    text-align: center;
-
-    margin-bottom: 15px;
+.coin:active{transform:scale(.95)}
+.progress{
+  height:12px;
+  background:#374151;
+  border-radius:10px;
+  overflow:hidden;
 }
-
-h1 {
-    margin: 0;
-
-    color: #00d2ff;
-
-    font-size: 28px;
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#22c55e;
 }
-
-.subtitle {
-    color: #aaa;
-
-    font-size: 13px;
-
-    margin-top: 6px;
+button{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  margin-top:10px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-
-/* CARD */
-
-.card {
-    background:
-        rgba(255,255,255,.07);
-
-    border-radius: 20px;
-
-    padding: 18px;
-
-    margin-bottom: 14px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.22);
+.ad-btn{background:#22c55e;color:#052e16}
+.daily-btn{background:#facc15;color:#111}
+.mission{
+  padding:12px;
+  margin:8px 0;
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
 }
-
-.title {
-    font-size: 18px;
-
-    font-weight: bold;
-
-    margin-bottom: 12px;
-}
-
-
-/* SCORE */
-
-.score-label {
-    color: #aaa;
-
-    font-size: 13px;
-
-    text-align: center;
-}
-
-.score {
-    text-align: center;
-
-    color: #ffe066;
-
-    font-size: 42px;
-
-    font-weight: bold;
-
-    margin: 3px 0;
-}
-
-.level {
-    text-align: center;
-
-    color: #00d2ff;
-
-    font-weight: bold;
-
-    margin-bottom: 10px;
-}
-
-
-/* COIN */
-
-.coin {
-    width: 185px;
-    height: 185px;
-
-    margin:
-        15px auto 12px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #fff7b2,
-            #ffd43b 45%,
-            #f59e0b
-        );
-
-    border:
-        8px solid #fff7c2;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 70px;
-
-    box-shadow:
-        0 10px 35px
-        rgba(245,158,11,.45);
-
-    cursor: pointer;
-
-    transition:
-        transform .08s;
-}
-
-.coin:active {
-    transform:
-        scale(.91);
-}
-
-.tap-info {
-    text-align: center;
-
-    color: #aaa;
-
-    font-size: 13px;
-}
-
-
-/* PROGRESS */
-
-.progress-bg {
-    width: 100%;
-
-    height: 12px;
-
-    background:
-        rgba(255,255,255,.12);
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-    margin: 8px 0;
-}
-
-.progress {
-    height: 100%;
-
-    width: 0%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #00d2ff,
-            #00b4db
-        );
-
-    transition:
-        width .2s;
-}
-
-.small {
-    color: #aaa;
-
-    font-size: 12px;
-}
-
-
-/* COMBO */
-
-.combo-box {
-    text-align: center;
-}
-
-.combo {
-    font-size: 22px;
-
-    color: #facc15;
-
-    font-weight: bold;
-}
-
-
-/* BUTTON */
-
-button {
-    width: 100%;
-
-    border: none;
-
-    border-radius: 30px;
-
-    padding: 14px;
-
-    margin-top: 9px;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: .55;
-
-    cursor:
-        not-allowed;
-}
-
-.ad-button {
-    background:
-        linear-gradient(
-            90deg,
-            #00d2ff,
-            #00b4db
-        );
-
-    color: #111;
-}
-
-.daily {
-    background:
-        linear-gradient(
-            90deg,
-            #facc15,
-            #f59e0b
-        );
-
-    color: #111;
-}
-
-
-/* STATUS */
-
-.status {
-    min-height: 22px;
-
-    margin-top: 10px;
-
-    text-align: center;
-
-    color: #00d2ff;
-
-    font-size: 13px;
-}
-
-
-/* INFO */
-
-.info {
-    color: #aaa;
-
-    font-size: 12px;
-
-    line-height: 1.65;
-}
-
-
-/* AD LOCATION */
-
-.ad-location {
-    background:
-        rgba(0,210,255,.08);
-
-    border:
-        1px solid
-        rgba(0,210,255,.2);
-
-    padding: 10px;
-
-    border-radius: 10px;
-
-    color: #aaa;
-
-    font-size: 12px;
-
-    margin-top: 10px;
-
-    line-height: 1.5;
-}
-
-
-/* MISSIONS */
-
-.mission {
-    background:
-        rgba(255,255,255,.05);
-
-    padding: 12px;
-
-    border-radius: 12px;
-
-    margin-bottom: 9px;
-}
-
-.mission:last-child {
-    margin-bottom: 0;
-}
-
-.mission-name {
-    font-weight: bold;
-
-    margin-bottom: 4px;
-}
-
-.mission-status {
-    font-size: 12px;
-
-    color: #aaa;
-}
-
-
-/* ACHIEVEMENT */
-
-.achievement {
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-    padding: 11px;
-
-    margin-bottom: 8px;
-
-    background:
-        rgba(255,255,255,.05);
-
-    border-radius: 12px;
-}
-
-.achievement:last-child {
-    margin-bottom: 0;
-}
-
-.locked {
-    opacity: .45;
-}
-
-.unlocked {
-    opacity: 1;
-}
-
-
-/* RULE BOX */
-
-.rule {
-    background:
-        rgba(255,255,255,.05);
-
-    border-radius: 12px;
-
-    padding: 12px;
-
-    margin-bottom: 8px;
-
-    color: #ccc;
-
-    font-size: 12px;
-
-    line-height: 1.6;
-}
-
-
-/* SUPPORT */
-
-.support {
-    text-align: center;
-
-    color: #aaa;
-
-    font-size: 12px;
-
-    line-height: 1.6;
-}
-
-
-/* FOOTER */
-
-.footer {
-    text-align: center;
-
-    color: #666;
-
-    font-size: 11px;
-
-    margin-top: 15px;
-}
-
+.small{color:#cbd5e1;font-size:14px;line-height:1.6}
+.center{text-align:center}
+.success{color:#4ade80}
 </style>
-
 </head>
 
-
 <body>
-
-
 <div class="container">
 
-
-    <!-- HEADER -->
-
-    <div class="header">
-
-        <h1>
-            🪙 Roki Coin Click
-        </h1>
-
-        <div class="subtitle">
-            Coin সংগ্রহ করুন এবং নিজের Level বাড়ান
-        </div>
-
-    </div>
-
-
-    <!-- MAIN GAME -->
-
-    <div class="card">
-
-        <div class="score-label">
-            আপনার Coin
-        </div>
-
-
-        <div class="score">
-
-            <span id="score">
-                0
-            </span>
-
-        </div>
-
-
-        <div class="level">
-
-            ⭐ Level
-            <span id="level">
-                1
-            </span>
-
-        </div>
-
-
-        <div
-            class="coin"
-            id="coin"
-        >
-            🪙
-        </div>
-
-
-        <div class="tap-info">
-
-            কয়েনে ট্যাপ করলে
-            +1 Coin
-
-        </div>
-
-
-        <div
-            class="status"
-            id="status"
-        ></div>
-
-    </div>
-
-
-    <!-- LEVEL -->
-
-    <div class="card">
-
-        <div class="title">
-            📈 Level Progress
-        </div>
-
-
-        <div class="small">
-
-            পরবর্তী Level:
-            <b id="nextLevel">
-                100
-            </b>
-            Coin
-
-        </div>
-
-
-        <div class="progress-bg">
-
-            <div
-                class="progress"
-                id="levelProgress"
-            ></div>
-
-        </div>
-
-
-        <div class="small">
-
-            Coin সংগ্রহ করলে
-            Level বাড়বে।
-
-        </div>
-
-    </div>
-
-
-    <!-- COMBO -->
-
-    <div class="card combo-box">
-
-        <div class="title">
-            ⚡ Tap Combo
-        </div>
-
-
-        <div class="combo">
-
-            x<span id="combo">
-                0
-            </span>
-
-        </div>
-
-
-        <div class="small">
-
-            দ্রুত ট্যাপ করলে
-            Combo বাড়বে।
-
-        </div>
-
-    </div>
-
-
-    <!-- ADSGRAM REWARD -->
-
-    <div class="card">
-
-        <div class="title">
-            🎁 Bonus Coin
-        </div>
-
-
-        <div class="info">
-
-            বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
-            চাইলে নিচের বোতামে চাপ দিয়ে
-            একটি Rewarded বিজ্ঞাপন সম্পূর্ণ
-            দেখে Bonus Coin নিতে পারেন।
-
-        </div>
-
-
-        <button
-            class="ad-button"
-            id="watchAd"
-        >
-
-            📺 বিজ্ঞাপন দেখুন
-            +50 Coin
-
-        </button>
-
-
-        <div class="ad-location">
-
-            📍 <b>Ad Placement:</b><br>
-
-            বিজ্ঞাপনটি শুধুমাত্র এই
-            <b>“বিজ্ঞাপন দেখুন +50 Coin”</b>
-            বোতামে চাপ দেওয়ার পর
-            Bonus Coin section-এ
-            Rewarded Ad হিসেবে প্রদর্শিত হবে।
-
-            মূল Coin Click game
-            বিজ্ঞাপন ছাড়া ব্যবহার করা যায়।
-
-        </div>
-
-    </div>
-
-
-    <!-- DAILY BONUS -->
-
-    <div class="card">
-
-        <div class="title">
-            🎁 Daily Bonus
-        </div>
-
-
-        <div class="info">
-
-            প্রতিদিন একবার
-            Daily Bonus নেওয়া যাবে।
-
-        </div>
-
-
-        <button
-            class="daily"
-            id="dailyButton"
-        >
-
-            🎁 Daily Bonus
-            +20 Coin
-
-        </button>
-
-    </div>
-
-
-    <!-- MISSIONS -->
-
-    <div class="card">
-
-        <div class="title">
-            🎯 Missions
-        </div>
-
-
-        <div class="mission">
-
-            <div class="mission-name">
-                🪙 100 Coin সংগ্রহ করুন
-            </div>
-
-            <div
-                class="mission-status"
-                id="mission100"
-            >
-                Progress:
-                0 / 100
-            </div>
-
-        </div>
-
-
-        <div class="mission">
-
-            <div class="mission-name">
-                🪙 500 Coin সংগ্রহ করুন
-            </div>
-
-            <div
-                class="mission-status"
-                id="mission500"
-            >
-                Progress:
-                0 / 500
-            </div>
-
-        </div>
-
-
-        <div class="mission">
-
-            <div class="mission-name">
-                🪙 1000 Coin সংগ্রহ করুন
-            </div>
-
-            <div
-                class="mission-status"
-                id="mission1000"
-            >
-                Progress:
-                0 / 1000
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ACHIEVEMENTS -->
-
-    <div class="card">
-
-        <div class="title">
-            🏆 Achievements
-        </div>
-
-
-        <div
-            class="achievement locked"
-            id="achievement100"
-        >
-
-            <span>
-                🥉 100 Coin
-            </span>
-
-            <span>
-                🔒
-            </span>
-
-        </div>
-
-
-        <div
-            class="achievement locked"
-            id="achievement500"
-        >
-
-            <span>
-                🥈 500 Coin
-            </span>
-
-            <span>
-                🔒
-            </span>
-
-        </div>
-
-
-        <div
-            class="achievement locked"
-            id="achievement1000"
-        >
-
-            <span>
-                🥇 1000 Coin
-            </span>
-
-            <span>
-                🔒
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- REWARD INFORMATION -->
-
-    <div class="card">
-
-        <div class="title">
-            💰 Reward Information
-        </div>
-
-
-        <div class="info">
-
-            Roki Coin Click-এর Coin হলো
-            গেমের internal reward points।
-
-            <br><br>
-
-            বিজ্ঞাপন দেখার Bonus এবং
-            গেমের Coin-এর হিসাব আলাদা
-            server/payout system ছাড়া
-            বাস্তব টাকা হিসেবে গণ্য করা
-            হবে না।
-
-            <br><br>
-
-            বাস্তব payout চালু করলে
-            payout-এর নিয়ম, minimum
-            withdrawal এবং যোগ্যতার
-            শর্ত এখানে স্পষ্টভাবে
-            প্রকাশ করা হবে।
-
-        </div>
-
-    </div>
-
-
-    <!-- GAME RULES -->
-
-    <div class="card">
-
-        <div class="title">
-            📋 Game Rules
-        </div>
-
-
-        <div class="rule">
-            1️⃣ Coin পেতে Coin-এ
-            ট্যাপ করতে পারবেন।
-        </div>
-
-
-        <div class="rule">
-            2️⃣ বিজ্ঞাপন দেখা
-            বাধ্যতামূলক নয়।
-        </div>
-
-
-        <div class="rule">
-            3️⃣ Rewarded বিজ্ঞাপন
-            দেখতে হলে Bonus button
-            নিজে চাপতে হবে।
-        </div>
-
-
-        <div class="rule">
-            4️⃣ বিজ্ঞাপন সম্পূর্ণ
-            দেখা হলে Bonus Coin
-            দেওয়া হবে।
-        </div>
-
-
-        <div class="rule">
-            5️⃣ বিজ্ঞাপন দেখার জন্য
-            অন্য কোনো advertisement
-            click করার প্রয়োজন নেই।
-        </div>
-
-
-        <div class="rule">
-            6️⃣ Coin বা reward
-            artificially generate,
-            manipulate বা automate
-            করা যাবে না।
-        </div>
-
-    </div>
-
-
-    <!-- FAQ -->
-
-    <div class="card">
-
-        <div class="title">
-            ❓ FAQ
-        </div>
-
-
-        <div class="rule">
-
-            <b>প্রশ্ন:</b>
-            বিজ্ঞাপন না দেখলে কি
-            গেম খেলতে পারব?
-
-            <br>
-
-            <b>উত্তর:</b>
-            হ্যাঁ। মূল Coin Click
-            game বিজ্ঞাপন ছাড়াই
-            ব্যবহার করা যায়।
-
-        </div>
-
-
-        <div class="rule">
-
-            <b>প্রশ্ন:</b>
-            কোথায় বিজ্ঞাপন আসে?
-
-            <br>
-
-            <b>উত্তর:</b>
-            Bonus Coin section-এর
-            “বিজ্ঞাপন দেখুন” button
-            চাপার পর।
-
-        </div>
-
-
-        <div class="rule">
-
-            <b>প্রশ্ন:</b>
-            বিজ্ঞাপন দেখলে কী হয়?
-
-            <br>
-
-            <b>উত্তর:</b>
-            Rewarded ad সফলভাবে
-            সম্পূর্ণ হলে game-এর
-            নির্ধারিত Bonus Coin
-            যোগ হয়।
-
-        </div>
-
-    </div>
-
-
-    <!-- SUPPORT -->
-
-    <div class="card">
-
-        <div class="title">
-            📞 Support
-        </div>
-
-
-        <div class="support">
-
-            কোনো সমস্যা হলে
-            Roki Coin Click-এর
-            official Telegram
-            support/contact ব্যবহার
-            করুন।
-
-            <br><br>
-
-            Reward বা payout সম্পর্কিত
-            তথ্য প্রকাশ করা হলে
-            যাচাইযোগ্য তথ্যসহ
-            প্রকাশ করা হবে।
-
-        </div>
-
-    </div>
-
-
-    <div class="footer">
-
-        Roki Coin Click
-
-    </div>
-
+<h1>🪙 Roki Coin Click</h1>
+
+<div class="card">
+  <div class="score">
+    🪙 <span id="coins">0</span>
+  </div>
+
+  <div class="coin" id="coinButton">TAP</div>
+
+  <div class="center">
+    Level <span id="level">1</span>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <p class="center small">
+    পরবর্তী Level: <span id="nextLevel">100</span> Coin
+  </p>
+
+  <p class="center">
+    🔥 Tap Combo: <span id="combo">0</span>
+  </p>
+</div>
+
+<div class="card">
+  <h2>📺 Bonus</h2>
+  <p class="small">
+    বিজ্ঞাপন সম্পূর্ণ দেখলে আপনি 50 Coin Bonus পাবেন।
+    বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
+  </p>
+
+  <button class="ad-btn" id="adButton">
+    📺 বিজ্ঞাপন দেখুন +50 Coin
+  </button>
+
+  <p id="adStatus" class="center small"></p>
+</div>
+
+<div class="card">
+  <h2>🎁 Daily Bonus</h2>
+  <p class="small">প্রতিদিন একবার Daily Bonus নিতে পারবেন।</p>
+  <button class="daily-btn" id="dailyButton">
+    🎁 Daily Bonus +100 Coin
+  </button>
+  <p id="dailyStatus" class="center small"></p>
+</div>
+
+<div class="card">
+  <h2>🎯 Missions</h2>
+
+  <div class="mission">
+    🟢 100 Coin অর্জন
+    <span id="m100">⏳</span>
+  </div>
+
+  <div class="mission">
+    🟢 500 Coin অর্জন
+    <span id="m500">⏳</span>
+  </div>
+
+  <div class="mission">
+    🟢 1000 Coin অর্জন
+    <span id="m1000">⏳</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🏆 Achievements</h2>
+
+  <div class="mission">
+    🥉 First 100 Coins
+    <span id="a100">🔒</span>
+  </div>
+
+  <div class="mission">
+    🥈 500 Coins
+    <span id="a500">🔒</span>
+  </div>
+
+  <div class="mission">
+    🥇 1000 Coins
+    <span id="a1000">🔒</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>ℹ️ Reward Information</h2>
+  <p class="small">
+    • Game-এর মূল Coin সংগ্রহ বিজ্ঞাপন ছাড়াই করা যায়।<br>
+    • বিজ্ঞাপন দেখা ঐচ্ছিক।<br>
+    • Rewarded advertisement সম্পূর্ণ দেখার পর Bonus Coin যোগ হবে।<br>
+    • বিজ্ঞাপন না দেখলেও Game-এর সাধারণ কাজ চালু থাকবে।
+  </p>
+</div>
+
+<div class="card">
+  <h2>📜 Game Rules</h2>
+  <p class="small">
+    1. Tap করে Coin সংগ্রহ করুন।<br>
+    2. বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।<br>
+    3. Reward পেতে বিজ্ঞাপন সম্পূর্ণ দেখতে হবে।<br>
+    4. স্বাভাবিক Game-এর জন্য বিজ্ঞাপন দেখা প্রয়োজন নেই।<br>
+    5. কোনো বিজ্ঞাপনে ক্লিক করা বাধ্যতামূলক নয়।
+  </p>
+</div>
+
+<div class="card">
+  <h2>❓ FAQ</h2>
+  <p class="small">
+    <b>বিজ্ঞাপন কেন দেখব?</b><br>
+    Bonus Coin পাওয়ার জন্য।<br><br>
+
+    <b>বিজ্ঞাপন না দেখলে?</b><br>
+    আপনি স্বাভাবিকভাবে Tap করে Coin সংগ্রহ করতে পারবেন।<br><br>
+
+    <b>Reward কখন পাব?</b><br>
+    Rewarded বিজ্ঞাপন সফলভাবে সম্পূর্ণ দেখার পর।
+  </p>
+</div>
+
+<div class="card">
+  <h2>📍 Ad Placement</h2>
+  <p class="small">
+    Rewarded advertisement শুধুমাত্র “বিজ্ঞাপন দেখুন +50 Coin”
+    বাটনে ব্যবহার করা হয়েছে।
+  </p>
+</div>
 
 </div>
 
-
 <script>
-
-
-/* ==========================================
-   TELEGRAM MINI APP
-========================================== */
-
-const tg =
-    window.Telegram &&
-    window.Telegram.WebApp;
-
+const tg = window.Telegram && window.Telegram.WebApp;
 
 if (tg) {
-
-    tg.ready();
-
-    tg.expand();
-
+  tg.ready();
+  tg.expand();
 }
 
+/* নতুন AdsGram Block ID */
+const BLOCK_ID = "51296";
 
-/* ==========================================
-   GAME DATA
-========================================== */
-
-let score = 0;
-
+let coins = Number(localStorage.getItem("rokiCoins") || 0);
 let combo = 0;
-
 let lastTap = 0;
 
-let dailyClaimed = false;
+const coinsEl = document.getElementById("coins");
+const levelEl = document.getElementById("level");
+const nextLevelEl = document.getElementById("nextLevel");
+const progressBar = document.getElementById("progressBar");
+const comboEl = document.getElementById("combo");
 
-
-/* ==========================================
-   ADSGRAM
-========================================== */
-
-const BLOCK_ID =
-    "50857";
-
-
-let AdController =
-    null;
-
-
-/* ==========================================
-   ELEMENTS
-========================================== */
-
-const scoreElement =
-    document.getElementById(
-        "score"
-    );
-
-
-const levelElement =
-    document.getElementById(
-        "level"
-    );
-
-
-const nextLevelElement =
-    document.getElementById(
-        "nextLevel"
-    );
-
-
-const progressElement =
-    document.getElementById(
-        "levelProgress"
-    );
-
-
-const comboElement =
-    document.getElementById(
-        "combo"
-    );
-
-
-const statusElement =
-    document.getElementById(
-        "status"
-    );
-
-
-const coinElement =
-    document.getElementById(
-        "coin"
-    );
-
-
-const watchAdButton =
-    document.getElementById(
-        "watchAd"
-    );
-
-
-const dailyButton =
-    document.getElementById(
-        "dailyButton"
-    );
-
-
-/* ==========================================
-   STATUS
-========================================== */
-
-function setStatus(message) {
-
-    statusElement.textContent =
-        message;
-
+function saveCoins(){
+  localStorage.setItem("rokiCoins", coins);
 }
 
+function updateGame(){
 
-/* ==========================================
-   ADSGRAM INITIALIZE
-========================================== */
+  coinsEl.textContent = coins;
 
-function initAdsGram() {
+  const level = Math.floor(coins / 100) + 1;
+  const currentLevelCoins = coins % 100;
 
-    if (
-        !window.Adsgram
-    ) {
+  levelEl.textContent = level;
+  nextLevelEl.textContent = level * 100;
 
-        return false;
+  progressBar.style.width = currentLevelCoins + "%";
 
-    }
-
-
-    if (
-        typeof window.Adsgram.init !==
-        "function"
-    ) {
-
-        return false;
-
-    }
-
-
-    try {
-
-        AdController =
-            window.Adsgram.init({
-                blockId: BLOCK_ID
-            });
-
-
-        return true;
-
-    } catch (error) {
-
-        console.log(
-            "AdsGram initialization error:",
-            error
-        );
-
-
-        return false;
-
-    }
-
+  updateMissions();
 }
 
+function updateMissions(){
 
-/* ==========================================
-   UPDATE GAME
-========================================== */
+  document.getElementById("m100").textContent =
+    coins >= 100 ? " ✅" : " ⏳";
 
-function updateGame() {
+  document.getElementById("m500").textContent =
+    coins >= 500 ? " ✅" : " ⏳";
 
-    scoreElement.textContent =
-        score;
+  document.getElementById("m1000").textContent =
+    coins >= 1000 ? " ✅" : " ⏳";
 
+  document.getElementById("a100").textContent =
+    coins >= 100 ? "🏆" : "🔒";
 
-    comboElement.textContent =
-        combo;
+  document.getElementById("a500").textContent =
+    coins >= 500 ? "🏆" : "🔒";
 
-
-    /* LEVEL */
-
-    const level =
-        Math.floor(
-            score / 100
-        ) + 1;
-
-
-    levelElement.textContent =
-        level;
-
-
-    /* NEXT LEVEL */
-
-    const nextLevel =
-        level * 100;
-
-
-    nextLevelElement.textContent =
-        nextLevel;
-
-
-    /* PROGRESS */
-
-    const previousLevel =
-        (level - 1) * 100;
-
-
-    const current =
-        score - previousLevel;
-
-
-    let percentage =
-        current;
-
-
-    if (percentage < 0) {
-
-        percentage = 0;
-
-    }
-
-
-    if (percentage > 100) {
-
-        percentage = 100;
-
-    }
-
-
-    progressElement.style.width =
-        percentage + "%";
-
-
-    /* MISSIONS */
-
-    document.getElementById(
-        "mission100"
-    ).textContent =
-        "Progress: " +
-        Math.min(
-            score,
-            100
-        ) +
-        " / 100";
-
-
-    document.getElementById(
-        "mission500"
-    ).textContent =
-        "Progress: " +
-        Math.min(
-            score,
-            500
-        ) +
-        " / 500";
-
-
-    document.getElementById(
-        "mission1000"
-    ).textContent =
-        "Progress: " +
-        Math.min(
-            score,
-            1000
-        ) +
-        " / 1000";
-
-
-    /* ACHIEVEMENTS */
-
-    updateAchievement(
-        "achievement100",
-        score >= 100
-    );
-
-
-    updateAchievement(
-        "achievement500",
-        score >= 500
-    );
-
-
-    updateAchievement(
-        "achievement1000",
-        score >= 1000
-    );
-
+  document.getElementById("a1000").textContent =
+    coins >= 1000 ? "🏆" : "🔒";
 }
 
+/* Tap */
+document.getElementById("coinButton").addEventListener("click", () => {
 
-/* ==========================================
-   ACHIEVEMENT
-========================================== */
+  const now = Date.now();
 
-function updateAchievement(
-    id,
-    unlocked
-) {
+  if(now - lastTap < 1000){
+    combo++;
+  }else{
+    combo = 1;
+  }
 
-    const element =
-        document.getElementById(
-            id
-        );
+  lastTap = now;
 
+  coins += 1;
 
-    if (!element) {
+  comboEl.textContent = combo;
 
-        return;
+  saveCoins();
+  updateGame();
+});
 
-    }
+/* AdsGram Rewarded */
+let AdController = null;
 
-
-    const icon =
-        element.querySelector(
-            "span:last-child"
-        );
-
-
-    if (unlocked) {
-
-        element.classList.remove(
-            "locked"
-        );
-
-        element.classList.add(
-            "unlocked"
-        );
-
-
-        if (icon) {
-
-            icon.textContent =
-                "✅";
-
-        }
-
-    } else {
-
-        element.classList.remove(
-            "unlocked"
-        );
-
-        element.classList.add(
-            "locked"
-        );
-
-
-        if (icon) {
-
-            icon.textContent =
-                "🔒";
-
-        }
-
-    }
-
+try {
+  if (window.Adsgram) {
+    AdController = window.Adsgram.init({
+      blockId: BLOCK_ID
+    });
+  }
+} catch(e) {
+  console.log("AdsGram init error:", e);
 }
 
+document.getElementById("adButton").addEventListener("click", async () => {
 
-/* ==========================================
-   COIN CLICK
-========================================== */
+  const status = document.getElementById("adStatus");
+  const button = document.getElementById("adButton");
 
-coinElement.addEventListener(
-    "click",
-    function () {
+  if(!AdController){
+    status.textContent = "বিজ্ঞাপন এখনো প্রস্তুত নয়।";
+    return;
+  }
 
-        const now =
-            Date.now();
+  button.disabled = true;
+  status.textContent = "বিজ্ঞাপন লোড হচ্ছে...";
 
+  try {
 
-        if (
-            lastTap > 0 &&
-            now - lastTap < 800
-        ) {
+    await AdController.show();
 
-            combo++;
+    /* Reward only after successful rewarded ad completion */
+    coins += 50;
 
-        } else {
+    saveCoins();
+    updateGame();
 
-            combo = 1;
+    status.textContent = "✅ 50 Coin Bonus যোগ হয়েছে।";
 
-        }
+  } catch(error) {
 
+    console.log("AdsGram error:", error);
 
-        lastTap =
-            now;
+    status.textContent =
+      "বিজ্ঞাপন এখন পাওয়া যাচ্ছে না। পরে আবার চেষ্টা করুন।";
 
+  } finally {
 
-        score += 1;
+    button.disabled = false;
 
+  }
+});
 
-        updateGame();
+/* Daily Bonus */
+document.getElementById("dailyButton").addEventListener("click", () => {
 
+  const today = new Date().toISOString().slice(0,10);
+  const lastBonus = localStorage.getItem("rokiDailyBonus");
 
-        setStatus(
-            "+1 Coin"
-        );
+  const status = document.getElementById("dailyStatus");
+  const button = document.getElementById("dailyButton");
 
+  if(lastBonus === today){
+    status.textContent = "আজকের Daily Bonus ইতিমধ্যে নেওয়া হয়েছে।";
+    return;
+  }
 
-        setTimeout(
-            function () {
+  coins += 100;
 
-                if (
-                    statusElement.textContent ===
-                    "+1 Coin"
-                ) {
+  localStorage.setItem("rokiDailyBonus", today);
+  saveCoins();
+  updateGame();
 
-                    setStatus("");
+  status.textContent = "✅ 100 Coin Daily Bonus যোগ হয়েছে।";
+  button.disabled = true;
+});
 
-                }
-
-            },
-            500
-        );
-
-    }
-);
-
-
-/* ==========================================
-   ADSGRAM REWARDED
-========================================== */
-
-watchAdButton.addEventListener(
-    "click",
-    async function () {
-
-
-        if (!AdController) {
-
-            const initialized =
-                initAdsGram();
-
-
-            if (!initialized) {
-
-                setStatus(
-                    "AdsGram এখনো লোড হয়নি।"
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        watchAdButton.disabled =
-            true;
-
-
-        setStatus(
-            "বিজ্ঞাপন প্রস্তুত হচ্ছে..."
-        );
-
-
-        try {
-
-            const result =
-                await AdController.show();
-
-
-            /*
-             * Rewarded format:
-             * done === true হলে ad
-             * শেষ পর্যন্ত দেখা হয়েছে।
-             */
-
-            if (
-                result &&
-                result.done === false
-            ) {
-
-                setStatus(
-                    "বিজ্ঞাপন সম্পূর্ণ হয়নি।"
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * Reward
-             */
-
-            score += 50;
-
-
-            updateGame();
-
-
-            setStatus(
-                "🎉 বিজ্ঞাপন সম্পূর্ণ হয়েছে। +50 Coin"
-            );
-
-
-        } catch (error) {
-
-            console.log(
-                "AdsGram error:",
-                error
-            );
-
-
-            setStatus(
-                "এই মুহূর্তে বিজ্ঞাপন পাওয়া যাচ্ছে না।"
-            );
-
-        } finally {
-
-            watchAdButton.disabled =
-                false;
-
-        }
-
-    }
-);
-
-
-/* ==========================================
-   DAILY BONUS
-========================================== */
-
-dailyButton.addEventListener(
-    "click",
-    function () {
-
-
-        if (dailyClaimed) {
-
-            setStatus(
-                "আজকের Daily Bonus নেওয়া হয়েছে।"
-            );
-
-            return;
-
-        }
-
-
-        score += 20;
-
-
-        dailyClaimed =
-            true;
-
-
-        dailyButton.disabled =
-            true;
-
-
-        dailyButton.textContent =
-            "✅ আজকের Bonus নেওয়া হয়েছে";
-
-
-        updateGame();
-
-
-        setStatus(
-            "🎁 +20 Coin Daily Bonus"
-        );
-
-    }
-);
-
-
-/* ==========================================
-   START
-========================================== */
-
+/* Initial load */
 updateGame();
-
-
-/* ==========================================
-   ADSGRAM LOAD
-========================================== */
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        initAdsGram
-    );
-
-} else {
-
-    initAdsGram();
-
-}
-
 </script>
-
 
 </body>
 </html>
