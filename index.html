@@ -10,9 +10,7 @@
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -20,17 +18,17 @@ body{
     min-height:100vh;
     font-family:Arial,sans-serif;
     color:#fff;
-    background:linear-gradient(160deg,#0f172a,#172554,#111827);
+    background:linear-gradient(160deg,#0f172a,#172554,#111827)
 }
 
 .container{
     max-width:520px;
-    margin:auto;
+    margin:auto
 }
 
 h1{
     text-align:center;
-    margin:8px 0 18px;
+    margin:8px 0 18px
 }
 
 .card{
@@ -38,13 +36,13 @@ h1{
     border:1px solid rgba(255,255,255,.12);
     border-radius:18px;
     padding:18px;
-    margin-bottom:14px;
+    margin-bottom:14px
 }
 
 .score{
     text-align:center;
     font-size:32px;
-    font-weight:bold;
+    font-weight:bold
 }
 
 .coin{
@@ -62,30 +60,30 @@ h1{
     cursor:pointer;
     user-select:none;
     box-shadow:0 12px 30px rgba(0,0,0,.35);
-    transition:.08s;
+    transition:.08s
 }
 
 .coin:active{
-    transform:scale(.94);
+    transform:scale(.94)
 }
 
 .energy-text{
     text-align:center;
-    margin:8px 0;
+    margin:8px 0
 }
 
 .energy{
     height:12px;
     background:#374151;
     border-radius:10px;
-    overflow:hidden;
+    overflow:hidden
 }
 
 .energy-bar{
     height:100%;
     width:100%;
     background:#22c55e;
-    transition:.2s;
+    transition:.2s
 }
 
 .progress{
@@ -93,13 +91,13 @@ h1{
     background:#374151;
     border-radius:10px;
     overflow:hidden;
-    margin-top:8px;
+    margin-top:8px
 }
 
 .progress-bar{
     height:100%;
     width:0%;
-    background:#3b82f6;
+    background:#3b82f6
 }
 
 button{
@@ -110,45 +108,52 @@ button{
     margin-top:10px;
     font-size:16px;
     font-weight:bold;
-    cursor:pointer;
+    cursor:pointer
 }
 
 button:disabled{
     opacity:.55;
-    cursor:not-allowed;
+    cursor:not-allowed
 }
 
 .ad-btn{
     background:#22c55e;
-    color:#052e16;
+    color:#052e16
 }
 
 .daily-btn{
     background:#facc15;
-    color:#111;
+    color:#111
 }
 
 .mission{
     padding:13px;
     margin:8px 0;
     background:rgba(255,255,255,.06);
-    border-radius:10px;
+    border-radius:10px
+}
+
+.mission button{
+    padding:9px;
+    margin-top:8px;
+    background:#3b82f6;
+    color:#fff
 }
 
 .small{
     color:#cbd5e1;
     font-size:14px;
-    line-height:1.6;
+    line-height:1.6
 }
 
 .center{
-    text-align:center;
+    text-align:center
 }
 
 .stat{
     display:flex;
     justify-content:space-between;
-    margin:7px 0;
+    margin:7px 0
 }
 
 .notice{
@@ -157,7 +162,7 @@ button:disabled{
     background:rgba(59,130,246,.12);
     color:#dbeafe;
     font-size:14px;
-    line-height:1.5;
+    line-height:1.5
 }
 </style>
 </head>
@@ -206,7 +211,7 @@ button:disabled{
 
 <div class="card">
 
-    <h2>📈 Progress</h2>
+    <h2>📈 Level Progress</h2>
 
     <p class="small center">
         পরবর্তী Level:
@@ -217,24 +222,62 @@ button:disabled{
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
+    <p id="levelStatus" class="center small"></p>
+
 </div>
 
 
 <div class="card">
 
-    <h2>⚡ Game Booster</h2>
+    <h2>🎯 Missions</h2>
 
-    <p class="small">
-        চাইলে একটি Rewarded বিজ্ঞাপন সম্পূর্ণ দেখে
-        অতিরিক্ত 50 Energy পাওয়া যাবে।
-        এটি সম্পূর্ণ ঐচ্ছিক।
-    </p>
+    <div class="mission">
+        🟢 100 Coin Mission
+        <span id="m100">⏳</span>
+        <button id="claim100" disabled>
+            Claim +20 Coin
+        </button>
+    </div>
 
-    <button class="ad-btn" id="adButton">
-        📺 Rewarded Ad
-    </button>
+    <div class="mission">
+        🟢 500 Coin Mission
+        <span id="m500">⏳</span>
+        <button id="claim500" disabled>
+            Claim +50 Coin
+        </button>
+    </div>
 
-    <p id="adStatus" class="center small"></p>
+    <div class="mission">
+        🟢 1000 Coin Mission
+        <span id="m1000">⏳</span>
+        <button id="claim1000" disabled>
+            Claim +100 Coin
+        </button>
+    </div>
+
+    <p id="missionStatus" class="center small"></p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>🏆 Achievements</h2>
+
+    <div class="mission">
+        🥉 Reach 100 Coins
+        <span id="a100">🔒</span>
+    </div>
+
+    <div class="mission">
+        🥈 Reach 500 Coins
+        <span id="a500">🔒</span>
+    </div>
+
+    <div class="mission">
+        🥇 Reach 1000 Coins
+        <span id="a1000">🔒</span>
+    </div>
 
 </div>
 
@@ -258,44 +301,20 @@ button:disabled{
 
 <div class="card">
 
-    <h2>🎯 Missions</h2>
+    <h2>⚡ Game Booster</h2>
 
-    <div class="mission">
-        🟢 100 Coin
-        <span id="m100">⏳</span>
-    </div>
+    <p class="small">
+        গেমটি বিজ্ঞাপন ছাড়াই খেলা যায়।
+        চাইলে একটি Rewarded বিজ্ঞাপন সম্পূর্ণ দেখে
+        অতিরিক্ত 50 Energy পাওয়া যাবে।
+        এটি সম্পূর্ণ ঐচ্ছিক।
+    </p>
 
-    <div class="mission">
-        🟢 500 Coin
-        <span id="m500">⏳</span>
-    </div>
+    <button class="ad-btn" id="adButton">
+        📺 Watch Ad → +50 Energy
+    </button>
 
-    <div class="mission">
-        🟢 1000 Coin
-        <span id="m1000">⏳</span>
-    </div>
-
-</div>
-
-
-<div class="card">
-
-    <h2>🏆 Achievements</h2>
-
-    <div class="mission">
-        🥉 100 Coins
-        <span id="a100">🔒</span>
-    </div>
-
-    <div class="mission">
-        🥈 500 Coins
-        <span id="a500">🔒</span>
-    </div>
-
-    <div class="mission">
-        🥇 1000 Coins
-        <span id="a1000">🔒</span>
-    </div>
+    <p id="adStatus" class="center small"></p>
 
 </div>
 
@@ -309,9 +328,10 @@ button:disabled{
         2. প্রতিটি Tap-এ Energy ব্যবহার হবে।<br>
         3. Energy ধীরে ধীরে ফিরে আসবে।<br>
         4. Coin সংগ্রহ করে Level বাড়ান।<br>
-        5. Mission ও Achievement সম্পূর্ণ করুন।<br>
-        6. প্রতিদিন Daily Bonus নিতে পারবেন।<br>
-        7. চাইলে Rewarded Ad দেখে Game Booster নিতে পারবেন।
+        5. Mission পূরণ করে Coin reward Claim করুন।<br>
+        6. Achievement সম্পূর্ণ করুন।<br>
+        7. প্রতিদিন Daily Bonus নিতে পারবেন।<br>
+        8. চাইলে Rewarded Ad দেখে Game Booster নিতে পারবেন।
     </div>
 
 </div>
@@ -335,10 +355,10 @@ if(tg){
 
 /* ================================
    ADSGRAM
-   CURRENT BLOCK ID: 51501
+   CURRENT BLOCK ID: 51511
 ================================ */
 
-const BLOCK_ID = "51501";
+const BLOCK_ID = "51511";
 
 let AdController = null;
 
@@ -360,8 +380,10 @@ function initAds(){
 
     }catch(error){
 
-        console.log("AdsGram initialization error:", error);
-
+        console.log(
+            "AdsGram initialization error:",
+            error
+        );
     }
 
     return false;
@@ -389,6 +411,20 @@ let lastTap = 0;
 
 
 /* ================================
+   MISSION CLAIM DATA
+================================ */
+
+let mission100Claimed =
+    localStorage.getItem("mission100Claimed") === "yes";
+
+let mission500Claimed =
+    localStorage.getItem("mission500Claimed") === "yes";
+
+let mission1000Claimed =
+    localStorage.getItem("mission1000Claimed") === "yes";
+
+
+/* ================================
    ELEMENTS
 ================================ */
 
@@ -413,9 +449,12 @@ const energyBar =
 const comboEl =
     document.getElementById("combo");
 
+const levelStatus =
+    document.getElementById("levelStatus");
+
 
 /* ================================
-   SAVE
+   SAVE GAME
 ================================ */
 
 function saveGame(){
@@ -433,7 +472,7 @@ function saveGame(){
 
 
 /* ================================
-   UPDATE
+   UPDATE GAME
 ================================ */
 
 function updateGame(){
@@ -462,6 +501,17 @@ function updateGame(){
         energy + "%";
 
     updateMissions();
+
+    if(progress === 0 && coins > 0){
+
+        levelStatus.textContent =
+            "🎉 নতুন Level শুরু হয়েছে!";
+
+    }else{
+
+        levelStatus.textContent =
+            "আরও খেলুন এবং পরবর্তী Level আনলক করুন।";
+    }
 }
 
 
@@ -471,6 +521,16 @@ function updateGame(){
 
 function updateMissions(){
 
+    const c100 =
+        document.getElementById("claim100");
+
+    const c500 =
+        document.getElementById("claim500");
+
+    const c1000 =
+        document.getElementById("claim1000");
+
+
     document.getElementById("m100").textContent =
         coins >= 100 ? " ✅" : " ⏳";
 
@@ -479,6 +539,30 @@ function updateMissions(){
 
     document.getElementById("m1000").textContent =
         coins >= 1000 ? " ✅" : " ⏳";
+
+
+    c100.disabled =
+        coins < 100 || mission100Claimed;
+
+    c500.disabled =
+        coins < 500 || mission500Claimed;
+
+    c1000.disabled =
+        coins < 1000 || mission1000Claimed;
+
+
+    if(mission100Claimed){
+        c100.textContent = "Claimed ✓";
+    }
+
+    if(mission500Claimed){
+        c500.textContent = "Claimed ✓";
+    }
+
+    if(mission1000Claimed){
+        c1000.textContent = "Claimed ✓";
+    }
+
 
     document.getElementById("a100").textContent =
         coins >= 100 ? "🏆" : "🔒";
@@ -492,12 +576,80 @@ function updateMissions(){
 
 
 /* ================================
+   MISSION CLAIM
+================================ */
+
+function claimMission(
+    required,
+    reward,
+    storageKey
+){
+
+    if(coins < required){
+        return;
+    }
+
+    if(localStorage.getItem(storageKey) === "yes"){
+        return;
+    }
+
+    coins += reward;
+
+    localStorage.setItem(
+        storageKey,
+        "yes"
+    );
+
+    saveGame();
+    updateGame();
+
+    document.getElementById(
+        "missionStatus"
+    ).textContent =
+        "✅ Mission reward +" + reward + " Coin যোগ হয়েছে।";
+}
+
+
+document.getElementById("claim100")
+.addEventListener("click",function(){
+
+    claimMission(
+        100,
+        20,
+        "mission100Claimed"
+    );
+});
+
+
+document.getElementById("claim500")
+.addEventListener("click",function(){
+
+    claimMission(
+        500,
+        50,
+        "mission500Claimed"
+    );
+});
+
+
+document.getElementById("claim1000")
+.addEventListener("click",function(){
+
+    claimMission(
+        1000,
+        100,
+        "mission1000Claimed"
+    );
+});
+
+
+/* ================================
    TAP GAME
 ================================ */
 
 document
 .getElementById("coinButton")
-.addEventListener("click", function(){
+.addEventListener("click",function(){
 
     if(energy <= 0){
 
@@ -551,7 +703,7 @@ setInterval(function(){
 
 document
 .getElementById("adButton")
-.addEventListener("click", async function(){
+.addEventListener("click",async function(){
 
     const button =
         document.getElementById("adButton");
