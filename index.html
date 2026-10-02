@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Roki Coin Click</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-
-<style>
-*{box-sizing:border-box}
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Roki Coin Click</title><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="https://sad.adsgram.ai/js/sad.min.js"></script><style>
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -157,177 +151,133 @@ button:disabled{
     font-size:14px;
     line-height:1.5;
 }
-</style>
-</head>
 
-<body>
-
-<div class="container">
-
-<h1>🪙 Roki Coin Click</h1>
-
-<div class="card">
-
-    <div class="score">
-        🪙 <span id="coins">0</span>
-    </div>
-
-    <div class="stat">
-        <span>⭐ Level</span>
-        <strong id="level">1</strong>
-    </div>
-
-    <div class="stat">
-        <span>🔥 Combo</span>
-        <strong id="combo">0</strong>
-    </div>
-
-    <div class="coin" id="coinButton">
-        TAP
-    </div>
-
-    <div class="energy-text">
-        ⚡ Energy:
-        <span id="energy">100</span>/100
-    </div>
-
-    <div class="energy">
-        <div class="energy-bar" id="energyBar"></div>
-    </div>
-
-    <p class="center small">
-        প্রতি Tap = 1 Coin
-    </p>
-
+.booster-active{
+    color:#86efac;
+    font-weight:bold;
+}
+</style></head><body><div class="container"><h1>🪙 Roki Coin Click</h1><div class="card"><div class="score">
+    🪙 <span id="coins">0</span>
 </div>
 
-
-<div class="card">
-
-    <h2>📈 Progress</h2>
-
-    <p class="small center">
-        পরবর্তী Level:
-        <span id="nextLevel">100</span> Coin
-    </p>
-
-    <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
+<div class="stat">
+    <span>⭐ Level</span>
+    <strong id="level">1</strong>
 </div>
 
-
-<div class="card">
-
-    <h2>🎁 Optional Booster</h2>
-
-    <p class="small">
-        চাইলে Rewarded বিজ্ঞাপন সম্পূর্ণ দেখে
-        50 Coin Bonus নিতে পারেন।
-        বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
-    </p>
-
-    <button class="ad-btn" id="adButton">
-        📺 বিজ্ঞাপন দেখুন +50 Coin
-    </button>
-
-    <p id="adStatus" class="center small"></p>
-
+<div class="stat">
+    <span>🔥 Combo</span>
+    <strong id="combo">0</strong>
 </div>
 
-
-<div class="card">
-
-    <h2>🌟 Daily Bonus</h2>
-
-    <p class="small">
-        প্রতিদিন একবার সাধারণ Daily Bonus নেওয়া যাবে।
-    </p>
-
-    <button class="daily-btn" id="dailyButton">
-        🎁 Daily Bonus +100 Coin
-    </button>
-
-    <p id="dailyStatus" class="center small"></p>
-
+<div class="coin" id="coinButton">
+    TAP
 </div>
 
-
-<div class="card">
-
-    <h2>🎯 Missions</h2>
-
-    <div class="mission">
-        🟢 100 Coin অর্জন
-        <span id="m100">⏳</span>
-    </div>
-
-    <div class="mission">
-        🟢 500 Coin অর্জন
-        <span id="m500">⏳</span>
-    </div>
-
-    <div class="mission">
-        🟢 1000 Coin অর্জন
-        <span id="m1000">⏳</span>
-    </div>
-
+<div class="energy-text">
+    ⚡ Energy:
+    <span id="energy">100</span>/100
 </div>
 
-
-<div class="card">
-
-    <h2>🏆 Achievements</h2>
-
-    <div class="mission">
-        🥉 First 100 Coins
-        <span id="a100">🔒</span>
-    </div>
-
-    <div class="mission">
-        🥈 500 Coins
-        <span id="a500">🔒</span>
-    </div>
-
-    <div class="mission">
-        🥇 1000 Coins
-        <span id="a1000">🔒</span>
-    </div>
-
+<div class="energy">
+    <div class="energy-bar" id="energyBar"></div>
 </div>
 
+<p class="center small">
+    প্রতি Tap = 1 Coin
+</p>
 
-<div class="card">
+</div><div class="card"><h2>📈 Progress</h2>
 
-    <h2>🎮 How To Play</h2>
+<p class="small center">
+    পরবর্তী Level:
+    <span id="nextLevel">100</span> Coin
+</p>
 
-    <div class="notice">
-        1. TAP করে Coin সংগ্রহ করুন।<br>
-        2. Energy শেষ হলে অপেক্ষা করুন।<br>
-        3. Coin সংগ্রহ করে Level বাড়ান।<br>
-        4. Mission ও Achievement সম্পূর্ণ করুন।<br>
-        5. চাইলে আলাদা Booster হিসেবে Rewarded Ad দেখতে পারেন।
-    </div>
-
+<div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
 </div>
 
+</div><div class="card"><h2>⚡ Optional Booster</h2>
 
-<div class="card">
+<p class="small">
+    চাইলে Rewarded বিজ্ঞাপন সম্পূর্ণ দেখে
+    একটি অতিরিক্ত Energy Booster নিতে পারেন।
+    বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
+</p>
 
-    <h2>📺 Advertisement</h2>
+<button class="ad-btn" id="adButton">
+    📺 বিজ্ঞাপন দেখুন — Energy Booster
+</button>
 
-    <p class="small">
-        বিজ্ঞাপনটি শুধুমাত্র Optional Booster-এর জন্য।
-        Game-এর মূল gameplay বিজ্ঞাপন ছাড়াই ব্যবহার করা যায়।
-    </p>
+<p id="adStatus" class="center small"></p>
 
+</div><div class="card"><h2>🎁 Daily Bonus</h2>
+
+<p class="small">
+    প্রতিদিন একবার সাধারণ Daily Bonus নেওয়া যাবে।
+</p>
+
+<button class="daily-btn" id="dailyButton">
+    🎁 Daily Bonus +100 Coin
+</button>
+
+<p id="dailyStatus" class="center small"></p>
+
+</div><div class="card"><h2>🎯 Missions</h2>
+
+<div class="mission">
+    🟢 100 Coin অর্জন
+    <span id="m100">⏳</span>
 </div>
 
+<div class="mission">
+    🟢 500 Coin অর্জন
+    <span id="m500">⏳</span>
 </div>
 
+<div class="mission">
+    🟢 1000 Coin অর্জন
+    <span id="m1000">⏳</span>
+</div>
 
-<script>
+</div><div class="card"><h2>🏆 Achievements</h2>
+
+<div class="mission">
+    🥉 First 100 Coins
+    <span id="a100">🔒</span>
+</div>
+
+<div class="mission">
+    🥈 500 Coins
+    <span id="a500">🔒</span>
+</div>
+
+<div class="mission">
+    🥇 1000 Coins
+    <span id="a1000">🔒</span>
+</div>
+
+</div><div class="card"><h2>🎮 How To Play</h2>
+
+<div class="notice">
+    1. TAP করে Coin সংগ্রহ করুন।<br>
+    2. Energy শেষ হলে অপেক্ষা করুন।<br>
+    3. Coin সংগ্রহ করে Level বাড়ান।<br>
+    4. Mission ও Achievement সম্পূর্ণ করুন।<br>
+    5. প্রতিদিন Daily Bonus নিন।<br>
+    6. চাইলে Optional Booster হিসেবে Rewarded Ad দেখতে পারেন।
+</div>
+
+</div><div class="card"><h2>📺 Advertisement</h2>
+
+<p class="small">
+    বিজ্ঞাপনটি শুধুমাত্র Optional Booster হিসেবে
+    নির্দিষ্ট এই অংশে দেখানো হবে।
+    Game-এর মূল gameplay বিজ্ঞাপন ছাড়াই ব্যবহার করা যায়।
+</p>
+
+</div></div><script>
 
 /* =========================================
    TELEGRAM MINI APP
@@ -343,7 +293,7 @@ if(tg){
 
 /* =========================================
    ADSGRAM
-   YOUR ACTIVE BLOCK ID
+   BLOCK ID
 ========================================= */
 
 const BLOCK_ID = "51296";
@@ -365,7 +315,6 @@ function initAds(){
                 });
 
             return true;
-
         }
 
     }catch(error){
@@ -379,9 +328,6 @@ function initAds(){
 
     return false;
 }
-
-
-/* Initialize once */
 
 initAds();
 
@@ -445,12 +391,11 @@ function saveGame(){
         "rokiEnergy",
         String(energy)
     );
-
 }
 
 
 /* =========================================
-   UPDATE
+   UPDATE GAME
 ========================================= */
 
 function updateGame(){
@@ -479,7 +424,6 @@ function updateGame(){
         energy + "%";
 
     updateMissions();
-
 }
 
 
@@ -506,7 +450,6 @@ function updateMissions(){
 
     document.getElementById("a1000").textContent =
         coins >= 1000 ? "🏆" : "🔒";
-
 }
 
 
@@ -544,7 +487,6 @@ document
 
     saveGame();
     updateGame();
-
 });
 
 
@@ -560,14 +502,13 @@ setInterval(function(){
 
         saveGame();
         updateGame();
-
     }
 
 },5000);
 
 
 /* =========================================
-   ADSGRAM REWARDED AD
+   ADSGRAM REWARDED BOOSTER
 ========================================= */
 
 document
@@ -580,19 +521,12 @@ document
     const status =
         document.getElementById("adStatus");
 
-
     button.disabled = true;
 
     status.textContent =
         "বিজ্ঞাপন লোড হচ্ছে...";
 
-
     try{
-
-        /*
-         * Re-initialize only if controller
-         * is not available.
-         */
 
         if(!AdController){
 
@@ -604,35 +538,34 @@ document
                 throw new Error(
                     "AdsGram SDK is not available"
                 );
-
             }
-
         }
 
-
         /*
-         * Official AdsGram Rewarded flow:
-         *
-         * show() resolves when the user
-         * watches the rewarded ad until
-         * the end.
-         *
-         * If it rejects, no reward is given.
+         * Rewarded block:
+         * reward only after the rewarded
+         * ad successfully finishes.
          */
 
         await AdController.show();
 
+        /*
+         * Gameplay booster:
+         * restore 50 Energy.
+         * It cannot exceed MAX_ENERGY.
+         */
 
-        /* Reward ONLY after successful show */
-
-        coins += 50;
+        energy =
+            Math.min(
+                MAX_ENERGY,
+                energy + 50
+            );
 
         saveGame();
         updateGame();
 
         status.textContent =
-            "✅ 50 Coin Bonus যোগ হয়েছে।";
-
+            "✅ Booster সক্রিয় হয়েছে — 50 Energy যোগ হয়েছে।";
 
     }catch(error){
 
@@ -647,9 +580,7 @@ document
     }finally{
 
         button.disabled = false;
-
     }
-
 });
 
 
@@ -669,7 +600,6 @@ function getToday(){
     return new Date()
         .toISOString()
         .slice(0,10);
-
 }
 
 
@@ -689,9 +619,7 @@ function checkDaily(){
 
         dailyStatus.textContent =
             "আজকের Daily Bonus ইতিমধ্যে নেওয়া হয়েছে।";
-
     }
-
 }
 
 
@@ -707,7 +635,6 @@ dailyButton.addEventListener(
                 "rokiDailyBonus"
             );
 
-
         if(last === today){
 
             dailyStatus.textContent =
@@ -717,7 +644,6 @@ dailyButton.addEventListener(
 
             return;
         }
-
 
         coins += 100;
 
@@ -733,7 +659,6 @@ dailyButton.addEventListener(
             "✅ 100 Coin Daily Bonus যোগ হয়েছে।";
 
         dailyButton.disabled = true;
-
     }
 );
 
@@ -745,7 +670,5 @@ dailyButton.addEventListener(
 updateGame();
 checkDaily();
 
-</script>
-
-</body>
+</script></body>
 </html>
