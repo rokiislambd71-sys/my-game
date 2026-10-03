@@ -2,85 +2,649 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Roki Coin Click</title>
 
+<!-- Telegram Mini App -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- TADS -->
+<script src="https://w.tads.me/widget.js"></script>
+
 <style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     margin: 0;
-    padding: 20px;
-    background: #111827;
-    color: white;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #101827, #17243a);
+    color: #fff;
     text-align: center;
 }
 
+.app {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+    padding: 18px 14px 30px;
+}
+
 h1 {
-    font-size: 28px;
+    margin: 5px 0 8px;
+    font-size: 27px;
 }
 
-.box {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 20px;
-    margin-top: 20px;
+.subtitle {
+    color: #b8c4d9;
+    font-size: 15px;
+    margin-bottom: 18px;
 }
 
-.coin {
-    width: 180px;
-    height: 180px;
-    margin: 30px auto;
+.coin-box {
+    background: rgba(255,255,255,0.08);
+    border-radius: 22px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.coin-label {
+    color: #c9d3e6;
+    font-size: 14px;
+}
+
+.coins {
+    font-size: 42px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.tap-area {
+    margin: 18px auto;
+}
+
+.coin-button {
+    width: 185px;
+    height: 185px;
     border-radius: 50%;
-    background: gold;
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
+    border: 7px solid rgba(255,255,255,0.25);
+    background: radial-gradient(circle at 35% 30%, #ffe88a, #f5b400 55%, #d48600);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.35),
+        inset 0 5px 12px rgba(255,255,255,0.35);
+    color: #573700;
+    font-size: 31px;
     font-weight: bold;
+    cursor: pointer;
+    user-select: none;
 }
 
-#coins {
-    font-size: 40px;
+.coin-button:active {
+    transform: scale(0.94);
+}
+
+.tap-text {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #cbd5e1;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.info {
+    background: rgba(255,255,255,0.07);
+    border-radius: 15px;
+    padding: 13px 8px;
+}
+
+.info-title {
+    font-size: 13px;
+    color: #aebbd0;
+}
+
+.info-value {
+    font-size: 19px;
     font-weight: bold;
+    margin-top: 5px;
+}
+
+.section {
+    background: rgba(255,255,255,0.07);
+    border-radius: 17px;
+    padding: 15px;
+    margin-top: 13px;
+    text-align: left;
+}
+
+.section h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+}
+
+.mission,
+.achievement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.16);
+    padding: 11px;
+    border-radius: 11px;
+    margin-top: 8px;
+}
+
+.locked {
+    color: #8794a9;
+}
+
+.ready {
+    color: #ffd34d;
+}
+
+.bonus-button {
+    width: 100%;
+    border: 0;
+    border-radius: 13px;
+    padding: 13px;
+    background: #f0b90b;
+    color: #241900;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.bonus-button:disabled {
+    opacity: 0.45;
+}
+
+.ad-section {
+    margin-top: 16px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 17px;
+    padding: 14px;
+}
+
+.ad-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.ad-note {
+    font-size: 12px;
+    color: #9eabc0;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+#tads-container-12443 {
+    width: 100%;
+    min-height: 80px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.status {
+    margin-top: 9px;
+    font-size: 12px;
+    color: #91a0b7;
+}
+
+.pop {
+    position: fixed;
+    left: 50%;
+    top: 42%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    color: #111827;
+    padding: 10px 18px;
+    border-radius: 13px;
+    font-size: 18px;
+    font-weight: bold;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .15s, transform .15s;
+    z-index: 100;
+}
+
+.pop.show {
+    opacity: 1;
+    transform: translate(-50%, -65%);
 }
 </style>
 </head>
 
 <body>
 
-<h1>🪙 Roki Coin Click</h1>
+<div class="app">
 
-<div class="box">
+    <h1>Roki Coin Click</h1>
+    <div class="subtitle">কয়েন সংগ্রহ করো এবং Level বাড়াও</div>
 
-    <div>তোমার কয়েন</div>
-
-    <div id="coins">0</div>
-
-    <div class="coin">
-        TAP
+    <div class="coin-box">
+        <div class="coin-label">তোমার কয়েন</div>
+        <div class="coins" id="coinCount">0</div>
     </div>
 
-    <p>প্রতি TAP = +1 Coin</p>
+    <div class="tap-area">
+        <button class="coin-button" id="tapButton">TAP</button>
+        <div class="tap-text">প্রতি TAP = +1 Coin</div>
+    </div>
 
-    <p>⚡ Energy: 100 / 100</p>
+    <div class="info-grid">
+        <div class="info">
+            <div class="info-title">⚡ Energy</div>
+            <div class="info-value">
+                <span id="energy">100</span> / 100
+            </div>
+        </div>
 
-    <p>⭐ Level: 1</p>
+        <div class="info">
+            <div class="info-title">⭐ Level</div>
+            <div class="info-value" id="level">1</div>
+        </div>
+    </div>
 
-    <p>🎯 Missions</p>
+    <div class="section">
+        <h2>🎯 Missions</h2>
 
-    <p>100 Coins — 🔒</p>
+        <div class="mission">
+            <span>100 Coins</span>
+            <span id="mission100" class="locked">🔒</span>
+        </div>
 
-    <p>500 Coins — 🔒</p>
+        <div class="mission">
+            <span>500 Coins</span>
+            <span id="mission500" class="locked">🔒</span>
+        </div>
 
-    <p>1000 Coins — 🔒</p>
+        <div class="mission">
+            <span>1000 Coins</span>
+            <span id="mission1000" class="locked">🔒</span>
+        </div>
+    </div>
 
-    <p>🏆 Achievements</p>
+    <div class="section">
+        <h2>🏆 Achievements</h2>
 
-    <p>🎁 Daily Bonus</p>
+        <div class="achievement">
+            <span>100 Coins</span>
+            <span id="achievement100">🔒</span>
+        </div>
+
+        <div class="achievement">
+            <span>500 Coins</span>
+            <span id="achievement500">🔒</span>
+        </div>
+
+        <div class="achievement">
+            <span>1000 Coins</span>
+            <span id="achievement1000">🔒</span>
+        </div>
+
+        <div class="achievement">
+            <span>5000 Coins</span>
+            <span id="achievement5000">🔒</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎁 Daily Bonus</h2>
+
+        <button class="bonus-button" id="dailyButton">
+            আজকের Bonus নাও
+        </button>
+
+        <div class="status" id="dailyStatus"></div>
+    </div>
+
+    <!-- TADS ADVERTISEMENT -->
+    <div class="ad-section">
+
+        <div class="ad-title">📢 বিজ্ঞাপন</div>
+
+        <div class="ad-note">
+            Sponsored advertisement
+        </div>
+
+        <div id="tads-container-12443"></div>
+
+        <div class="status" id="adStatus">
+            বিজ্ঞাপন লোড হচ্ছে...
+        </div>
+
+    </div>
 
 </div>
+
+<div class="pop" id="pop">+1 Coin</div>
+
+<script>
+/* =========================
+   TELEGRAM
+========================= */
+
+const tg = window.Telegram && window.Telegram.WebApp;
+
+if (tg) {
+    tg.ready();
+    tg.expand();
+}
+
+
+/* =========================
+   GAME DATA
+========================= */
+
+let coins = parseInt(localStorage.getItem("rokiCoin") || "0");
+let energy = parseInt(localStorage.getItem("rokiEnergy") || "100");
+
+const MAX_ENERGY = 100;
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const coinCount = document.getElementById("coinCount");
+const energyText = document.getElementById("energy");
+const levelText = document.getElementById("level");
+const tapButton = document.getElementById("tapButton");
+const pop = document.getElementById("pop");
+
+const dailyButton = document.getElementById("dailyButton");
+const dailyStatus = document.getElementById("dailyStatus");
+
+
+/* =========================
+   LEVEL
+========================= */
+
+function getLevel() {
+    return Math.floor(coins / 100) + 1;
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveGame() {
+    localStorage.setItem("rokiCoin", coins);
+    localStorage.setItem("rokiEnergy", energy);
+}
+
+
+/* =========================
+   UPDATE UI
+========================= */
+
+function updateUI() {
+
+    coinCount.textContent = coins;
+    energyText.textContent = energy;
+    levelText.textContent = getLevel();
+
+    updateMissions();
+    updateAchievements();
+
+    if (energy <= 0) {
+        tapButton.disabled = true;
+    } else {
+        tapButton.disabled = false;
+    }
+}
+
+
+/* =========================
+   TAP
+========================= */
+
+tapButton.addEventListener("click", function () {
+
+    if (energy <= 0) {
+        return;
+    }
+
+    coins += 1;
+    energy -= 1;
+
+    saveGame();
+    updateUI();
+
+    pop.textContent = "+1 Coin";
+    pop.classList.add("show");
+
+    setTimeout(function () {
+        pop.classList.remove("show");
+    }, 300);
+});
+
+
+/* =========================
+   ENERGY RECOVERY
+========================= */
+
+setInterval(function () {
+
+    if (energy < MAX_ENERGY) {
+        energy += 1;
+
+        if (energy > MAX_ENERGY) {
+            energy = MAX_ENERGY;
+        }
+
+        saveGame();
+        updateUI();
+    }
+
+}, 3000);
+
+
+/* =========================
+   MISSIONS
+========================= */
+
+function updateMissions() {
+
+    const mission100 = document.getElementById("mission100");
+    const mission500 = document.getElementById("mission500");
+    const mission1000 = document.getElementById("mission1000");
+
+    if (coins >= 100) {
+        mission100.textContent = "✅";
+        mission100.className = "ready";
+    }
+
+    if (coins >= 500) {
+        mission500.textContent = "✅";
+        mission500.className = "ready";
+    }
+
+    if (coins >= 1000) {
+        mission1000.textContent = "✅";
+        mission1000.className = "ready";
+    }
+}
+
+
+/* =========================
+   ACHIEVEMENTS
+========================= */
+
+function updateAchievements() {
+
+    if (coins >= 100) {
+        document.getElementById("achievement100").textContent = "🏆";
+    }
+
+    if (coins >= 500) {
+        document.getElementById("achievement500").textContent = "🏆";
+    }
+
+    if (coins >= 1000) {
+        document.getElementById("achievement1000").textContent = "🏆";
+    }
+
+    if (coins >= 5000) {
+        document.getElementById("achievement5000").textContent = "🏆";
+    }
+}
+
+
+/* =========================
+   DAILY BONUS
+========================= */
+
+function checkDailyBonus() {
+
+    const today = new Date().toISOString().slice(0, 10);
+    const lastBonus = localStorage.getItem("rokiDailyBonus");
+
+    if (lastBonus === today) {
+        dailyButton.disabled = true;
+        dailyButton.textContent = "আজকের Bonus নেওয়া হয়েছে";
+        dailyStatus.textContent = "আগামীকাল আবার Bonus নিতে পারবে।";
+    } else {
+        dailyButton.disabled = false;
+        dailyButton.textContent = "আজকের Bonus নাও";
+        dailyStatus.textContent = "";
+    }
+}
+
+
+dailyButton.addEventListener("click", function () {
+
+    const today = new Date().toISOString().slice(0, 10);
+    const lastBonus = localStorage.getItem("rokiDailyBonus");
+
+    if (lastBonus === today) {
+        return;
+    }
+
+    coins += 20;
+
+    localStorage.setItem("rokiDailyBonus", today);
+
+    saveGame();
+    updateUI();
+    checkDailyBonus();
+});
+
+
+/* =========================
+   TADS
+   Widget: 12443
+   Format: Static / TGB
+========================= */
+
+const TADS_WIDGET_ID = "12443";
+
+function startTads() {
+
+    const status = document.getElementById("adStatus");
+
+    if (!window.tads || typeof window.tads.init !== "function") {
+        status.textContent = "বিজ্ঞাপন সিস্টেম প্রস্তুত হচ্ছে...";
+        return false;
+    }
+
+    try {
+
+        const adController = window.tads.init({
+            widgetId: TADS_WIDGET_ID,
+            type: "static",
+            debug: false,
+
+            onAdsNotFound: function () {
+                status.textContent = "এই মুহূর্তে বিজ্ঞাপন পাওয়া যায়নি।";
+            }
+        });
+
+        adController
+            .loadAd()
+            .then(function () {
+
+                return adController.showAd();
+
+            })
+            .then(function () {
+
+                status.textContent = "বিজ্ঞাপন প্রদর্শিত হচ্ছে।";
+
+            })
+            .catch(function (error) {
+
+                console.log("TADS error:", error);
+
+                status.textContent = "এই মুহূর্তে বিজ্ঞাপন পাওয়া যায়নি.";
+
+            });
+
+        return true;
+
+    } catch (error) {
+
+        console.log("TADS initialization error:", error);
+
+        status.textContent = "বিজ্ঞাপন লোড করা যায়নি.";
+
+        return false;
+    }
+}
+
+
+/* =========================
+   WAIT FOR TADS
+========================= */
+
+function waitForTads() {
+
+    if (startTads()) {
+        return;
+    }
+
+    let attempts = 0;
+
+    const timer = setInterval(function () {
+
+        attempts++;
+
+        if (startTads()) {
+            clearInterval(timer);
+            return;
+        }
+
+        if (attempts >= 50) {
+            clearInterval(timer);
+
+            document.getElementById("adStatus").textContent =
+                "বিজ্ঞাপন এই মুহূর্তে পাওয়া যায়নি.";
+        }
+
+    }, 100);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateUI();
+checkDailyBonus();
+waitForTads();
+
+</script>
 
 </body>
 </html>
