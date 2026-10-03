@@ -7,7 +7,7 @@
 <title>Roki Coin Game</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<script src="https://w.tads.me/widget.js"></script>
 
 <style>
 *{box-sizing:border-box}
@@ -116,14 +116,14 @@ button:disabled{
     cursor:not-allowed
 }
 
-.ad-btn{
-    background:#22c55e;
-    color:#052e16
-}
-
 .daily-btn{
     background:#facc15;
     color:#111
+}
+
+.ad-btn{
+    background:#22c55e;
+    color:#052e16
 }
 
 .mission{
@@ -163,6 +163,15 @@ button:disabled{
     color:#dbeafe;
     font-size:14px;
     line-height:1.5
+}
+
+/* TADS AD */
+.tads-box{
+    margin-top:14px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+    min-height:20px
 }
 </style>
 </head>
@@ -299,22 +308,21 @@ button:disabled{
 </div>
 
 
+<!-- ================================
+     TADS WIDGET 12443
+================================ -->
+
 <div class="card">
 
-    <h2>⚡ Game Booster</h2>
+    <h2>📢 Sponsored</h2>
 
     <p class="small">
-        গেমটি বিজ্ঞাপন ছাড়াই খেলা যায়।
-        চাইলে একটি Rewarded বিজ্ঞাপন সম্পূর্ণ দেখে
-        অতিরিক্ত 50 Energy পাওয়া যাবে।
-        এটি সম্পূর্ণ ঐচ্ছিক।
+        নিচের বিজ্ঞাপনটি ঐচ্ছিক। গেম খেলার জন্য বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
     </p>
 
-    <button class="ad-btn" id="adButton">
-        📺 Watch Ad → +50 Energy
-    </button>
+    <div id="tads-container-12443" class="tads-box"></div>
 
-    <p id="adStatus" class="center small"></p>
+    <p id="tadsStatus" class="center small"></p>
 
 </div>
 
@@ -331,7 +339,7 @@ button:disabled{
         5. Mission পূরণ করে Coin reward Claim করুন।<br>
         6. Achievement সম্পূর্ণ করুন।<br>
         7. প্রতিদিন Daily Bonus নিতে পারবেন।<br>
-        8. চাইলে Rewarded Ad দেখে Game Booster নিতে পারবেন।
+        8. বিজ্ঞাপন দেখা গেম খেলার জন্য বাধ্যতামূলক নয়।
     </div>
 
 </div>
@@ -354,42 +362,100 @@ if(tg){
 
 
 /* ================================
-   ADSGRAM
-   CURRENT BLOCK ID: 51511
+   TADS
+   WIDGET ID: 12443
+   TYPE: STATIC / TGB
 ================================ */
 
-const BLOCK_ID = "51511";
+const TADS_WIDGET_ID = "12443";
 
-let AdController = null;
+let tadsController = null;
 
-function initAds(){
+function initTads(){
 
     try{
 
         if(
-            window.Adsgram &&
-            typeof window.Adsgram.init === "function"
+            window.tads &&
+            typeof window.tads.init === "function"
         ){
 
-            AdController = window.Adsgram.init({
-                blockId: BLOCK_ID
+            tadsController = window.tads.init({
+                widgetId: TADS_WIDGET_ID,
+                type: "static",
+                debug: false,
+
+                onClickReward: function(adId){
+
+                    console.log(
+                        "TADS ad clicked:",
+                        adId
+                    );
+
+                },
+
+                onAdsNotFound: function(){
+
+                    console.log(
+                        "TADS: No ad found."
+                    );
+
+                    const status =
+                        document.getElementById(
+                            "tadsStatus"
+                        );
+
+                    if(status){
+
+                        status.textContent =
+                            "এই মুহূর্তে কোনো বিজ্ঞাপন পাওয়া যায়নি।";
+                    }
+                }
             });
 
-            return true;
+            if(
+                tadsController &&
+                typeof tadsController.loadAd === "function"
+            ){
+
+                tadsController
+                .loadAd()
+                .then(function(){
+
+                    if(
+                        tadsController &&
+                        typeof tadsController.showAd === "function"
+                    ){
+
+                        return tadsController.showAd();
+                    }
+
+                })
+                .catch(function(error){
+
+                    console.log(
+                        "TADS ad error:",
+                        error
+                    );
+
+                });
+            }
+
+        }else{
+
+            console.log(
+                "TADS SDK is not available."
+            );
         }
 
     }catch(error){
 
         console.log(
-            "AdsGram initialization error:",
+            "TADS initialization error:",
             error
         );
     }
-
-    return false;
 }
-
-initAds();
 
 
 /* ================================
@@ -414,443 +480,4 @@ let lastTap = 0;
    MISSION CLAIM DATA
 ================================ */
 
-let mission100Claimed =
-    localStorage.getItem("mission100Claimed") === "yes";
-
-let mission500Claimed =
-    localStorage.getItem("mission500Claimed") === "yes";
-
-let mission1000Claimed =
-    localStorage.getItem("mission1000Claimed") === "yes";
-
-
-/* ================================
-   ELEMENTS
-================================ */
-
-const coinsEl =
-    document.getElementById("coins");
-
-const levelEl =
-    document.getElementById("level");
-
-const nextLevelEl =
-    document.getElementById("nextLevel");
-
-const progressBar =
-    document.getElementById("progressBar");
-
-const energyEl =
-    document.getElementById("energy");
-
-const energyBar =
-    document.getElementById("energyBar");
-
-const comboEl =
-    document.getElementById("combo");
-
-const levelStatus =
-    document.getElementById("levelStatus");
-
-
-/* ================================
-   SAVE GAME
-================================ */
-
-function saveGame(){
-
-    localStorage.setItem(
-        "rokiCoins",
-        String(coins)
-    );
-
-    localStorage.setItem(
-        "rokiEnergy",
-        String(energy)
-    );
-}
-
-
-/* ================================
-   UPDATE GAME
-================================ */
-
-function updateGame(){
-
-    coinsEl.textContent = coins;
-
-    const level =
-        Math.floor(coins / 100) + 1;
-
-    const progress =
-        coins % 100;
-
-    levelEl.textContent =
-        level;
-
-    nextLevelEl.textContent =
-        level * 100;
-
-    progressBar.style.width =
-        progress + "%";
-
-    energyEl.textContent =
-        energy;
-
-    energyBar.style.width =
-        energy + "%";
-
-    updateMissions();
-
-    if(progress === 0 && coins > 0){
-
-        levelStatus.textContent =
-            "🎉 নতুন Level শুরু হয়েছে!";
-
-    }else{
-
-        levelStatus.textContent =
-            "আরও খেলুন এবং পরবর্তী Level আনলক করুন।";
-    }
-}
-
-
-/* ================================
-   MISSIONS
-================================ */
-
-function updateMissions(){
-
-    const c100 =
-        document.getElementById("claim100");
-
-    const c500 =
-        document.getElementById("claim500");
-
-    const c1000 =
-        document.getElementById("claim1000");
-
-
-    document.getElementById("m100").textContent =
-        coins >= 100 ? " ✅" : " ⏳";
-
-    document.getElementById("m500").textContent =
-        coins >= 500 ? " ✅" : " ⏳";
-
-    document.getElementById("m1000").textContent =
-        coins >= 1000 ? " ✅" : " ⏳";
-
-
-    c100.disabled =
-        coins < 100 || mission100Claimed;
-
-    c500.disabled =
-        coins < 500 || mission500Claimed;
-
-    c1000.disabled =
-        coins < 1000 || mission1000Claimed;
-
-
-    if(mission100Claimed){
-        c100.textContent = "Claimed ✓";
-    }
-
-    if(mission500Claimed){
-        c500.textContent = "Claimed ✓";
-    }
-
-    if(mission1000Claimed){
-        c1000.textContent = "Claimed ✓";
-    }
-
-
-    document.getElementById("a100").textContent =
-        coins >= 100 ? "🏆" : "🔒";
-
-    document.getElementById("a500").textContent =
-        coins >= 500 ? "🏆" : "🔒";
-
-    document.getElementById("a1000").textContent =
-        coins >= 1000 ? "🏆" : "🔒";
-}
-
-
-/* ================================
-   MISSION CLAIM
-================================ */
-
-function claimMission(
-    required,
-    reward,
-    storageKey
-){
-
-    if(coins < required){
-        return;
-    }
-
-    if(localStorage.getItem(storageKey) === "yes"){
-        return;
-    }
-
-    coins += reward;
-
-    localStorage.setItem(
-        storageKey,
-        "yes"
-    );
-
-    saveGame();
-    updateGame();
-
-    document.getElementById(
-        "missionStatus"
-    ).textContent =
-        "✅ Mission reward +" + reward + " Coin যোগ হয়েছে।";
-}
-
-
-document.getElementById("claim100")
-.addEventListener("click",function(){
-
-    claimMission(
-        100,
-        20,
-        "mission100Claimed"
-    );
-});
-
-
-document.getElementById("claim500")
-.addEventListener("click",function(){
-
-    claimMission(
-        500,
-        50,
-        "mission500Claimed"
-    );
-});
-
-
-document.getElementById("claim1000")
-.addEventListener("click",function(){
-
-    claimMission(
-        1000,
-        100,
-        "mission1000Claimed"
-    );
-});
-
-
-/* ================================
-   TAP GAME
-================================ */
-
-document
-.getElementById("coinButton")
-.addEventListener("click",function(){
-
-    if(energy <= 0){
-
-        combo = 0;
-        comboEl.textContent = "0";
-
-        return;
-    }
-
-    const now = Date.now();
-
-    if(now - lastTap <= 1200){
-        combo++;
-    }else{
-        combo = 1;
-    }
-
-    lastTap = now;
-
-    coins += 1;
-    energy -= 1;
-
-    comboEl.textContent =
-        combo;
-
-    saveGame();
-    updateGame();
-});
-
-
-/* ================================
-   ENERGY REGENERATION
-================================ */
-
-setInterval(function(){
-
-    if(energy < MAX_ENERGY){
-
-        energy += 1;
-
-        saveGame();
-        updateGame();
-    }
-
-},5000);
-
-
-/* ================================
-   REWARDED AD
-================================ */
-
-document
-.getElementById("adButton")
-.addEventListener("click",async function(){
-
-    const button =
-        document.getElementById("adButton");
-
-    const status =
-        document.getElementById("adStatus");
-
-    button.disabled = true;
-
-    status.textContent =
-        "বিজ্ঞাপন লোড হচ্ছে...";
-
-    try{
-
-        if(!AdController){
-
-            const initialized =
-                initAds();
-
-            if(!initialized){
-
-                throw new Error(
-                    "AdsGram SDK is not available"
-                );
-            }
-        }
-
-        await AdController.show();
-
-        energy =
-            Math.min(
-                MAX_ENERGY,
-                energy + 50
-            );
-
-        saveGame();
-        updateGame();
-
-        status.textContent =
-            "✅ 50 Energy যোগ হয়েছে।";
-
-    }catch(error){
-
-        console.log(
-            "AdsGram show error:",
-            error
-        );
-
-        status.textContent =
-            "বিজ্ঞাপন বর্তমানে পাওয়া যাচ্ছে না।";
-
-    }finally{
-
-        button.disabled = false;
-    }
-});
-
-
-/* ================================
-   DAILY BONUS
-================================ */
-
-const dailyButton =
-    document.getElementById("dailyButton");
-
-const dailyStatus =
-    document.getElementById("dailyStatus");
-
-
-function getToday(){
-
-    const now = new Date();
-
-    return now.getFullYear() + "-" +
-        String(now.getMonth()+1).padStart(2,"0") + "-" +
-        String(now.getDate()).padStart(2,"0");
-}
-
-
-function checkDaily(){
-
-    const today =
-        getToday();
-
-    const last =
-        localStorage.getItem(
-            "rokiDailyBonus"
-        );
-
-    if(last === today){
-
-        dailyButton.disabled = true;
-
-        dailyStatus.textContent =
-            "আজকের Daily Bonus ইতিমধ্যে নেওয়া হয়েছে।";
-    }
-}
-
-
-dailyButton.addEventListener(
-    "click",
-    function(){
-
-        const today =
-            getToday();
-
-        const last =
-            localStorage.getItem(
-                "rokiDailyBonus"
-            );
-
-        if(last === today){
-
-            dailyStatus.textContent =
-                "আজকের Bonus ইতিমধ্যে নেওয়া হয়েছে।";
-
-            dailyButton.disabled = true;
-
-            return;
-        }
-
-        coins += 100;
-
-        localStorage.setItem(
-            "rokiDailyBonus",
-            today
-        );
-
-        saveGame();
-        updateGame();
-
-        dailyStatus.textContent =
-            "✅ 100 Coin যোগ হয়েছে।";
-
-        dailyButton.disabled = true;
-    }
-);
-
-
-/* ================================
-   START
-================================ */
-
-updateGame();
-checkDaily();
-
-</script>
-
-</body>
-</html>
+let mission100
