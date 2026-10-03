@@ -59,6 +59,9 @@ h1{
     font-weight:bold;
     cursor:pointer;
     user-select:none;
+    -webkit-user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
     box-shadow:0 12px 30px rgba(0,0,0,.35);
     transition:.08s
 }
@@ -121,11 +124,6 @@ button:disabled{
     color:#111
 }
 
-.ad-btn{
-    background:#22c55e;
-    color:#052e16
-}
-
 .mission{
     padding:13px;
     margin:8px 0;
@@ -165,7 +163,6 @@ button:disabled{
     line-height:1.5
 }
 
-/* TADS AD */
 .tads-box{
     margin-top:14px;
     padding:12px;
@@ -217,7 +214,6 @@ button:disabled{
 
 </div>
 
-
 <div class="card">
 
     <h2>📈 Level Progress</h2>
@@ -234,7 +230,6 @@ button:disabled{
     <p id="levelStatus" class="center small"></p>
 
 </div>
-
 
 <div class="card">
 
@@ -268,7 +263,6 @@ button:disabled{
 
 </div>
 
-
 <div class="card">
 
     <h2>🏆 Achievements</h2>
@@ -290,7 +284,6 @@ button:disabled{
 
 </div>
 
-
 <div class="card">
 
     <h2>🎁 Daily Bonus</h2>
@@ -307,10 +300,7 @@ button:disabled{
 
 </div>
 
-
-<!-- ================================
-     TADS WIDGET 12443
-================================ -->
+<!-- TADS WIDGET 12443 -->
 
 <div class="card">
 
@@ -325,7 +315,6 @@ button:disabled{
     <p id="tadsStatus" class="center small"></p>
 
 </div>
-
 
 <div class="card">
 
@@ -346,7 +335,6 @@ button:disabled{
 
 </div>
 
-
 <script>
 
 /* ================================
@@ -364,11 +352,9 @@ if(tg){
 /* ================================
    TADS
    WIDGET ID: 12443
-   TYPE: STATIC / TGB
 ================================ */
 
 const TADS_WIDGET_ID = "12443";
-
 let tadsController = null;
 
 function initTads(){
@@ -381,8 +367,11 @@ function initTads(){
         ){
 
             tadsController = window.tads.init({
+
                 widgetId: TADS_WIDGET_ID,
+
                 type: "static",
+
                 debug: false,
 
                 onClickReward: function(adId){
@@ -396,21 +385,16 @@ function initTads(){
 
                 onAdsNotFound: function(){
 
-                    console.log(
-                        "TADS: No ad found."
-                    );
-
                     const status =
-                        document.getElementById(
-                            "tadsStatus"
-                        );
+                        document.getElementById("tadsStatus");
 
                     if(status){
-
                         status.textContent =
                             "এই মুহূর্তে কোনো বিজ্ঞাপন পাওয়া যায়নি।";
                     }
+
                 }
+
             });
 
             if(
@@ -428,6 +412,7 @@ function initTads(){
                     ){
 
                         return tadsController.showAd();
+
                     }
 
                 })
@@ -439,45 +424,9 @@ function initTads(){
                     );
 
                 });
+
             }
 
-        }else{
-
-            console.log(
-                "TADS SDK is not available."
-            );
         }
 
-    }catch(error){
-
-        console.log(
-            "TADS initialization error:",
-            error
-        );
     }
-}
-
-
-/* ================================
-   GAME DATA
-================================ */
-
-let coins = Number(
-    localStorage.getItem("rokiCoins") || 0
-);
-
-let energy = Number(
-    localStorage.getItem("rokiEnergy") || 100
-);
-
-const MAX_ENERGY = 100;
-
-let combo = 0;
-let lastTap = 0;
-
-
-/* ================================
-   MISSION CLAIM DATA
-================================ */
-
-let mission100
