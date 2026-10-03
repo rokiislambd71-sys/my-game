@@ -4,429 +4,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Roki Coin Game</title>
+<title>Roki Coin Click</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://w.tads.me/widget.js"></script>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    padding:16px;
+    padding:14px;
     min-height:100vh;
     font-family:Arial,sans-serif;
-    color:#fff;
-    background:linear-gradient(160deg,#0f172a,#172554,#111827)
+    color:white;
+    background:linear-gradient(160deg,#07111f,#102a43,#08111d);
 }
 
 .container{
-    max-width:520px;
-    margin:auto
+    width:100%;
+    max-width:500px;
+    margin:auto;
 }
 
-h1{
+.header{
     text-align:center;
-    margin:8px 0 18px
+    margin:8px 0 15px;
+}
+
+.header h1{
+    margin:0;
+    font-size:28px;
+}
+
+.header p{
+    margin:6px 0 0;
+    color:#9fb3c8;
+    font-size:14px;
 }
 
 .card{
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:14px
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    padding:16px;
+    margin-bottom:14px;
 }
 
-.score{
+.balance{
     text-align:center;
-    font-size:32px;
-    font-weight:bold
 }
 
-.coin{
-    width:175px;
-    height:175px;
-    margin:22px auto;
+.balance-title{
+    color:#a9bdd0;
+    font-size:14px;
+}
+
+.balance-number{
+    font-size:38px;
+    font-weight:bold;
+    margin-top:4px;
+}
+
+.stats{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+}
+
+.stat{
+    flex:1;
+    padding:10px;
+    text-align:center;
+    background:rgba(255,255,255,.06);
+    border-radius:12px;
+}
+
+.stat small{
+    display:block;
+    color:#9fb3c8;
+    margin-bottom:4px;
+}
+
+.stat strong{
+    font-size:18px;
+}
+
+.coin-area{
+    text-align:center;
+    padding:10px 0 4px;
+}
+
+.coin-button{
+    width:190px;
+    height:190px;
+    margin:18px auto;
     border-radius:50%;
+    border:5px solid rgba(255,255,255,.25);
+    background:radial-gradient(circle at 35% 30%,#fde68a,#facc15 45%,#e59b00 100%);
+    color:#222;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:linear-gradient(145deg,#facc15,#f59e0b);
-    color:#111;
-    font-size:36px;
+    font-size:35px;
     font-weight:bold;
     cursor:pointer;
     user-select:none;
     -webkit-user-select:none;
     -webkit-tap-highlight-color:transparent;
     touch-action:manipulation;
-    box-shadow:0 12px 30px rgba(0,0,0,.35);
-    transition:.08s
+    box-shadow:0 12px 35px rgba(0,0,0,.4);
 }
 
-.coin:active{
-    transform:scale(.94)
+.coin-button:active{
+    transform:scale(.94);
 }
 
-.energy-text{
-    text-align:center;
-    margin:8px 0
-}
-
-.energy{
-    height:12px;
-    background:#374151;
-    border-radius:10px;
-    overflow:hidden
-}
-
-.energy-bar{
-    height:100%;
-    width:100%;
-    background:#22c55e;
-    transition:.2s
-}
-
-.progress{
-    height:12px;
-    background:#374151;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:8px
-}
-
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#3b82f6
-}
-
-button{
-    width:100%;
-    border:0;
-    border-radius:12px;
-    padding:14px;
-    margin-top:10px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer
-}
-
-button:disabled{
-    opacity:.55;
-    cursor:not-allowed
-}
-
-.daily-btn{
-    background:#facc15;
-    color:#111
-}
-
-.mission{
-    padding:13px;
-    margin:8px 0;
-    background:rgba(255,255,255,.06);
-    border-radius:10px
-}
-
-.mission button{
-    padding:9px;
-    margin-top:8px;
-    background:#3b82f6;
-    color:#fff
-}
-
-.small{
-    color:#cbd5e1;
+.tap-help{
+    color:#a9bdd0;
     font-size:14px;
-    line-height:1.6
 }
 
-.center{
-    text-align:center
-}
-
-.stat{
-    display:flex;
-    justify-content:space-between;
-    margin:7px 0
-}
-
-.notice{
-    padding:12px;
-    border-radius:10px;
-    background:rgba(59,130,246,.12);
-    color:#dbeafe;
-    font-size:14px;
-    line-height:1.5
-}
-
-.tads-box{
-    margin-top:14px;
-    padding:12px;
-    border-radius:12px;
-    background:rgba(255,255,255,.05);
-    min-height:20px
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>🪙 Roki Coin Game</h1>
-
-<div class="card">
-
-    <div class="score">
-        🪙 <span id="coins">0</span>
-    </div>
-
-    <div class="stat">
-        <span>⭐ Level</span>
-        <strong id="level">1</strong>
-    </div>
-
-    <div class="stat">
-        <span>🔥 Combo</span>
-        <strong id="combo">0</strong>
-    </div>
-
-    <div class="coin" id="coinButton">
-        TAP
-    </div>
-
-    <div class="energy-text">
-        ⚡ Energy:
-        <span id="energy">100</span>/100
-    </div>
-
-    <div class="energy">
-        <div class="energy-bar" id="energyBar"></div>
-    </div>
-
-    <p class="center small">
-        প্রতি Tap = 1 Coin
-    </p>
-
-</div>
-
-<div class="card">
-
-    <h2>📈 Level Progress</h2>
-
-    <p class="small center">
-        পরবর্তী Level:
-        <span id="nextLevel">100</span> Coin
-    </p>
-
-    <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <p id="levelStatus" class="center small"></p>
-
-</div>
-
-<div class="card">
-
-    <h2>🎯 Missions</h2>
-
-    <div class="mission">
-        🟢 100 Coin Mission
-        <span id="m100">⏳</span>
-        <button id="claim100" disabled>
-            Claim +20 Coin
-        </button>
-    </div>
-
-    <div class="mission">
-        🟢 500 Coin Mission
-        <span id="m500">⏳</span>
-        <button id="claim500" disabled>
-            Claim +50 Coin
-        </button>
-    </div>
-
-    <div class="mission">
-        🟢 1000 Coin Mission
-        <span id="m1000">⏳</span>
-        <button id="claim1000" disabled>
-            Claim +100 Coin
-        </button>
-    </div>
-
-    <p id="missionStatus" class="center small"></p>
-
-</div>
-
-<div class="card">
-
-    <h2>🏆 Achievements</h2>
-
-    <div class="mission">
-        🥉 Reach 100 Coins
-        <span id="a100">🔒</span>
-    </div>
-
-    <div class="mission">
-        🥈 Reach 500 Coins
-        <span id="a500">🔒</span>
-    </div>
-
-    <div class="mission">
-        🥇 Reach 1000 Coins
-        <span id="a1000">🔒</span>
-    </div>
-
-</div>
-
-<div class="card">
-
-    <h2>🎁 Daily Bonus</h2>
-
-    <p class="small">
-        প্রতিদিন একবার Daily Bonus নেওয়া যাবে।
-    </p>
-
-    <button class="daily-btn" id="dailyButton">
-        🎁 Daily Bonus +100 Coin
-    </button>
-
-    <p id="dailyStatus" class="center small"></p>
-
-</div>
-
-<!-- TADS WIDGET 12443 -->
-
-<div class="card">
-
-    <h2>📢 Sponsored</h2>
-
-    <p class="small">
-        নিচের বিজ্ঞাপনটি ঐচ্ছিক। গেম খেলার জন্য বিজ্ঞাপন দেখা বাধ্যতামূলক নয়।
-    </p>
-
-    <div id="tads-container-12443" class="tads-box"></div>
-
-    <p id="tadsStatus" class="center small"></p>
-
-</div>
-
-<div class="card">
-
-    <h2>🎮 How To Play</h2>
-
-    <div class="notice">
-        1. TAP করে Coin সংগ্রহ করুন।<br>
-        2. প্রতিটি Tap-এ Energy ব্যবহার হবে।<br>
-        3. Energy ধীরে ধীরে ফিরে আসবে।<br>
-        4. Coin সংগ্রহ করে Level বাড়ান।<br>
-        5. Mission পূরণ করে Coin reward Claim করুন।<br>
-        6. Achievement সম্পূর্ণ করুন।<br>
-        7. প্রতিদিন Daily Bonus নিতে পারবেন।<br>
-        8. বিজ্ঞাপন দেখা গেম খেলার জন্য বাধ্যতামূলক নয়।
-    </div>
-
-</div>
-
-</div>
-
-<script>
-
-/* ================================
-   TELEGRAM
-================================ */
-
-const tg = window.Telegram?.WebApp;
-
-if(tg){
-    tg.ready();
-    tg.expand();
-}
-
-
-/* ================================
-   TADS
-   WIDGET ID: 12443
-================================ */
-
-const TADS_WIDGET_ID = "12443";
-let tadsController = null;
-
-function initTads(){
-
-    try{
-
-        if(
-            window.tads &&
-            typeof window.tads.init === "function"
-        ){
-
-            tadsController = window.tads.init({
-
-                widgetId: TADS_WIDGET_ID,
-
-                type: "static",
-
-                debug: false,
-
-                onClickReward: function(adId){
-
-                    console.log(
-                        "TADS ad clicked:",
-                        adId
-                    );
-
-                },
-
-                onAdsNotFound: function(){
-
-                    const status =
-                        document.getElementById("tadsStatus");
-
-                    if(status){
-                        status.textContent =
-                            "এই মুহূর্তে কোনো বিজ্ঞাপন পাওয়া যায়নি।";
-                    }
-
-                }
-
-            });
-
-            if(
-                tadsController &&
-                typeof tadsController.loadAd === "function"
-            ){
-
-                tadsController
-                .loadAd()
-                .then(function(){
-
-                    if(
-                        tadsController &&
-                        typeof tadsController.showAd === "function"
-                    ){
-
-                        return tadsController.showAd();
-
-                    }
-
-                })
-                .catch(function(error){
-
-                    console.log(
-                        "TADS ad error:",
-                        error
-                    );
-
-                });
-
-            }
-
-        }
-
-    }
+.energy-title{
+    text
